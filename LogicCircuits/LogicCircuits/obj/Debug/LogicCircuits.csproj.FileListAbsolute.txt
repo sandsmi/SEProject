@@ -1,0 +1,13 @@
+D:\LogicCircuits\LogicCircuits\LogicCircuits\bin\Debug\LogicCircuits.exe.config
+D:\LogicCircuits\LogicCircuits\LogicCircuits\bin\Debug\LogicCircuits.exe
+D:\LogicCircuits\LogicCircuits\LogicCircuits\bin\Debug\LogicCircuits.pdb
+D:\LogicCircuits\LogicCircuits\LogicCircuits\obj\Debug\LogicCircuits.csprojResolveAssemblyReference.cache
+D:\LogicCircuits\LogicCircuits\LogicCircuits\obj\Debug\MainWindow.baml
+D:\LogicCircuits\LogicCircuits\LogicCircuits\obj\Debug\MainWindow.g.cs
+D:\LogicCircuits\LogicCircuits\LogicCircuits\obj\Debug\App.g.cs
+D:\LogicCircuits\LogicCircuits\LogicCircuits\obj\Debug\LogicCircuits_MarkupCompile.cache
+D:\LogicCircuits\LogicCircuits\LogicCircuits\obj\Debug\LogicCircuits.g.resources
+D:\LogicCircuits\LogicCircuits\LogicCircuits\obj\Debug\LogicCircuits.Properties.Resources.resources
+D:\LogicCircuits\LogicCircuits\LogicCircuits\obj\Debug\LogicCircuits.csproj.GenerateResource.Cache
+D:\LogicCircuits\LogicCircuits\LogicCircuits\obj\Debug\LogicCircuits.exe
+D:\LogicCircuits\LogicCircuits\LogicCircuits\obj\Debug\LogicCircuits.pdb

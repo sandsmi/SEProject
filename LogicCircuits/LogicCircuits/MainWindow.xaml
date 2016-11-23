@@ -1,0 +1,107 @@
+﻿<Window x:Class="LogicCircuits.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="600" Width="800" Background="LightGray">
+    <Grid>
+        <Canvas>
+            <Rectangle Fill="White" Canvas.Left="65" Canvas.Top="87" Width="692" Height="417" />
+            <Button Content="Move" Canvas.Left="327" Canvas.Top="56" Width="147" Height="26"/>
+            <Rectangle Canvas.Left="351" Canvas.Top="522" HorizontalAlignment="Stretch" Fill="MediumBlue" Height="3" Width="372"/>
+            <Rectangle Canvas.Left="351" Canvas.Top="543" HorizontalAlignment="Stretch" Fill="Firebrick" Height="3" Width="372"/>
+            <TextBlock Foreground="Firebrick" Canvas.Left="728" Canvas.Top="533"><Span FontWeight="Bold">1</Span></TextBlock>
+            <TextBlock Foreground="MediumBlue" Canvas.Left="728" Canvas.Top="512"><Span FontWeight="Bold">0</Span></TextBlock>
+        </Canvas>
+        <WrapPanel Margin="149,10,55,449" Orientation="Horizontal" HorizontalAlignment="Center" Width="588">
+            <WrapPanel.Resources>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Margin" Value="5,2" />
+                    <Setter Property="Padding" Value="15,5" />
+                </Style>
+            </WrapPanel.Resources>
+            <Button Content="Load"/>
+            <Button Content="New"/>
+            <Button Content="Prev"/>
+            <Button Content="Next"/>
+            <Button Content="Save"/>
+            <Button Content="Save As"/>
+            <Button Content="Close"/>
+            <Button Content="Info"/>
+        </WrapPanel>
+
+        <WrapPanel Margin="96,66,121,449" Orientation="Horizontal">
+            <WrapPanel.Resources>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Margin" Value="1, 0" />
+                    <Setter Property="Width" Value="15"/>
+                </Style>
+            </WrapPanel.Resources>
+            <Button Content="a"/>
+            <Button Content="b"/>
+            <Button Content="c"/>
+            <Button Content="d"/>
+            <Button Content="e"/>
+            <Button Content="f"/>
+        </WrapPanel>
+
+        <WrapPanel Margin="96,504,121,36" Orientation="Horizontal">
+            <WrapPanel.Resources>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Margin" Value="1, 0" />
+                    <Setter Property="Width" Value="15"/>
+                </Style>
+            </WrapPanel.Resources>
+            <Button Content=" "/>
+            <Button Content=" "/>
+            <Button Content=" "/>
+            <Button Content=" "/>
+            <Button Content=" "/>
+            <Button Content=" "/>
+        </WrapPanel>
+
+        <WrapPanel Margin="10,87,719,36" Orientation="Vertical">
+            <WrapPanel.Resources>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Margin" Value="0, 2" />
+                    <Setter Property="Width" Value="15"/>
+                </Style>
+            </WrapPanel.Resources>
+            <Button Height="45" Width="45">
+                <Button.Background>
+                    <ImageBrush ImageSource="Resources/and.png" />
+                </Button.Background>
+            </Button>
+            <Button Height="45" Width="45">
+                <Button.Background>
+                    <ImageBrush ImageSource="Resources/or.png" />
+                </Button.Background>
+            </Button>
+            <Button Height="45" Width="45">
+                <Button.Background>
+                    <ImageBrush ImageSource="Resources/not.png" />
+                </Button.Background>
+            </Button>
+            <Button Height="45" Width="45">
+                <Button.Background>
+                    <ImageBrush ImageSource="Resources/nand.png" />
+                </Button.Background>
+            </Button>
+            <Button Height="45" Width="45">
+                <Button.Background>
+                    <ImageBrush ImageSource="Resources/nor.png" />
+                </Button.Background>
+            </Button>
+            <Button Height="45" Width="45">
+                <Button.Background>
+                    <ImageBrush ImageSource="Resources/xor.png" />
+                </Button.Background>
+            </Button>
+
+            <Button Height="45" Width="45">
+                <Button.Background>
+                    <ImageBrush ImageSource="Resources/one.png" />
+                </Button.Background>
+            </Button>
+        </WrapPanel>
+    </Grid>
+
+</Window>
