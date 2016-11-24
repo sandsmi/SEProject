@@ -11,3 +11,6 @@ D:\LogicCircuits\LogicCircuits\LogicCircuits\obj\Debug\LogicCircuits.Properties.
 D:\LogicCircuits\LogicCircuits\LogicCircuits\obj\Debug\LogicCircuits.csproj.GenerateResource.Cache
 D:\LogicCircuits\LogicCircuits\LogicCircuits\obj\Debug\LogicCircuits.exe
 D:\LogicCircuits\LogicCircuits\LogicCircuits\obj\Debug\LogicCircuits.pdb
+C:\Users\Alekej\Desktop\SEProject\LogicCircuits\LogicCircuits\bin\Debug\LogicCircuits.exe.config
+C:\Users\Alekej\Desktop\SEProject\LogicCircuits\LogicCircuits\obj\Debug\LogicCircuits.exe
+C:\Users\Alekej\Desktop\SEProject\LogicCircuits\LogicCircuits\obj\Debug\LogicCircuits.pdb
