@@ -30,9 +30,16 @@ namespace Model
             public DataModels.OutpueEnum getResult(int id)
             {
 
-                ElementContainer element = elementList[id];
-                return element.state;
-                
+                foreach (ElementContainer element in this.elementList)
+                {
+
+                    if (element.id == id)
+                    {
+                        return element.state
+                    }
+                }
+
+                return OutpueEnum.unknown;
             }
 
         }
@@ -61,13 +68,19 @@ namespace Model
             }
             public Elements.Element elem;
             public int [] linkedElem;
+
             public DataModels.OutpueEnum state;
+            public DataModels.ElementType elementType;
+            public DataModels.GateType gateType;
+            public DataModels.RawType rawType;
+
             public int X1;
             public int X2;
             public int Y1;
             public int Y2;
             public bool movable;
             public int inputNumber;
+
 
         }
 
@@ -82,22 +95,195 @@ namespace Model
             high = 1,
             unknown = -1
         }
+
+        public enum GateType
+        {
+
+            AND, NAND, OR, NOR, NOT
+        }
+
+
+        public enum RawType
+        {
+            OutputPoint, Junction, InBus
+        }
+        public enum ElementType
+        {
+            
+            gateType, rawType
+        }
     }
 
     namespace Elements
     {
         public class Element
         {
-            public virtual DataModels.OutpueEnum CalculateOutput(int myId)
+
+            public  int recurenceCalculation(int inputNumber, int[] outputStates, GateType gateType)
             {
-                return DataModels.OutpueEnum.unknown;
+                if(gateType != GateType.NOT)
+                {
+                    int[] newOutputStates = new int[inputNumber / 2 + inputNumber % 2];
+                    int result = -1;
+
+                    int counter = 0;
+
+                    for (int i = 0; i < (inputNumber / 2 - inputNumber % 2); i = i + 2)
+                    {
+                        switch (gateType)
+                        {
+                            case GateType.AND:
+                                newOutputStates[counter] = outputStates[i] * outputStates[i + 1];
+                                break;
+
+                            case GateType.NAND:
+
+                                int temporaryResult = outputStates[i] * outputStates[i + 1];
+
+                                if (temporaryResult == 1)
+                                    newOutputStates[counter] = 0;
+                                else
+                                    newOutputStates[counter] = 1;
+
+                                break;
+
+                            case GateType.OR:
+
+                                newOutputStates[counter] = outputStates[i] >= outputStates[i + 1] ? outputStates[i] : outputStates[i + 1];
+
+                                break;
+                            case GateType.NOR:
+
+                                newOutputStates[counter] = outputStates[i] >= outputStates[i + 1] ? outputStates[i + 1] : outputStates[i];
+
+                                break;
+                            default:
+                                return -1;
+
+                        }
+
+                        counter++;
+                    }
+
+                    if (inputNumber % 2 > 0)
+                    {
+
+                        newOutputStates[counter + 1] = outputStates[counter + 1];
+                    }
+
+                    if ((inputNumber / 2 + inputNumber % 2) > 1)
+                    {
+
+                        this.recurenceCalculation((inputNumber / 2 + inputNumber % 2), newOutputStates, gateType);
+                    }
+                    else
+                    {
+                        result = newOutputStates[1];
+                        return result;
+                    }
+
+                    return -1;
+                }else
+                {
+
+                    if (outputStates[1] == -1)
+                        return -1;
+
+                    return outputStates[1] == 1 ? 0 : 1;
+
+                }
+
+            }
+            public  DataModels.OutpueEnum CalculateOutput(int myId)
+            {
+                DataContainer.ElementContainer selfElement;
+                bool existenceFlag = false;
+
+                foreach(DataContainer.ElementContainer element in DataContainer.Data.Instance.elementList)
+                {
+
+                    if (element.id == myId)
+                    {
+                        selfElement = element;
+                        existenceFlag = true;
+                        break;
+                    }else
+                    {
+                        existenceFlag = false;
+                    }
+                }
+
+
+                DataContainer.ElementContainer[] desiredElements = new DataContainer.ElementContainer[selfElement.inputNumber];
+
+                if (selfElement.elementType == ElementType.gateType)
+                {
+
+                    for (int i = 0; i < selfElement.inputNumber; i++)
+                    {
+
+                        int id = selfElement.linkedElem[i];
+
+                        foreach (DataContainer.ElementContainer element in DataContainer.Data.Instance.elementList)
+                        {
+
+                            if (element.id == id)
+                            {
+
+                                desiredElements[i] = element;
+                                break;
+                            }
+                        }
+
+
+                    }
+
+                    int[] outputStates = new int[selfElement.inputNumber];
+
+                    for (int i = 0; i < selfElement.inputNumber; i++)
+                    {
+
+                        outputStates[i] = (int)desiredElements[i].state;
+
+                        if (outputStates[i] == -1)
+                        {
+
+                            return OutpueEnum.unknown;
+                        }
+
+                    }
+
+                    int result = this.recurenceCalculation(selfElement.inputNumber, outputStates, selfElement.gateType);
+
+                    DataModels.OutpueEnum state = OutpueEnum.unknown;
+
+                    switch (result)
+                    {
+
+                        case 1:
+                            state = OutpueEnum.high;
+                            break;
+                        case 0:
+                            state = OutpueEnum.low;
+                            break;
+                        case -1:
+                            state = OutpueEnum.unknown;
+                            break;
+                    }
+
+                    return state;
+                }
+                else
+                {
+
+                    return selfElement.state;
+
+                }
+
             }
 
-            public virtual int recurenceCalculation(int inputNumber, int [] outputStates)
-            {
 
-                return -1;
-            }
+
             public bool LinkElem(int targetId, int myId)
             {
                 return true;
@@ -113,104 +299,8 @@ namespace Model
         public class AND : Element
         {
 
-            public override int recurenceCalculation(int inputNumber, int[] outputStates)
-            {
 
-                int[] newOutputStates = new int[inputNumber / 2 + inputNumber % 2];
-                int result = -1;
-
-                int counter = 0;
-
-                for (int i = 0; i < (inputNumber / 2 - inputNumber % 2); i = i + 2)
-                {
-
-                    newOutputStates[counter] = outputStates[i] * outputStates[i + 1];
-                    counter++;
-                }
-
-                if (inputNumber % 2 > 0)
-                {
-
-                    newOutputStates[counter + 1] = outputStates[counter + 1];
-                }
-
-                if((inputNumber / 2 + inputNumber % 2) > 1)
-                {
-
-                    this.recurenceCalculation((inputNumber / 2 + inputNumber % 2), newOutputStates);
-                }else
-                {
-                    result = newOutputStates[1];
-                    return result;
-                }
-
-                return -1;
-            }
-            public override OutpueEnum CalculateOutput(int myId)
-            {
-                //return base.CalculateOutput(myId);
-                DataContainer.ElementContainer selfElement = DataContainer.Data.Instance.elementList[myId];
-                DataContainer.ElementContainer[] desiredElements = new DataContainer.ElementContainer[selfElement.inputNumber];
-
-
-
-                for (int i = 0; i < selfElement.inputNumber; i++)
-                {
-
-                    int id = selfElement.linkedElem[i];
-
-                    foreach (DataContainer.ElementContainer element in DataContainer.Data.Instance.elementList)
-                    {
-
-                        if (element.id == id)
-                        {
-
-                            desiredElements[i] = element;
-                            break;
-                        }
-                    }
-
- 
-                }
-
-                int[] outputStates = new int[selfElement.inputNumber];
-
-                for (int i = 0; i < selfElement.inputNumber; i++)
-                {
-
-                    outputStates[i] = (int)desiredElements[i].state;
-
-                    if(outputStates[i] == -1)
-                    {
-
-                        return OutpueEnum.unknown;
-                    }
-
-                }
-
-                int result = this.recurenceCalculation(selfElement.inputNumber, outputStates);
-
-                DataModels.OutpueEnum state = OutpueEnum.unknown;
-
-                switch (result)
-                {
-
-                    case 1:
-                        state = OutpueEnum.high;
-                        break;
-                    case 0:
-                        state = OutpueEnum.low;
-                        break;
-                    case -1:
-                        state = OutpueEnum.unknown;
-                        break;
-                }
-
-                return state;
-            }
         }
-
-
         public class NOT : Element
         {
 
