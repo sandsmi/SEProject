@@ -196,7 +196,8 @@ namespace Model
             }
             public  DataModels.OutpueEnum CalculateOutput(int myId)
             {
-                DataContainer.ElementContainer selfElement;
+                DataContainer.ElementContainer selfElement = new DataContainer.ElementContainer();
+
                 bool existenceFlag = false;
 
                 foreach(DataContainer.ElementContainer element in DataContainer.Data.Instance.elementList)
@@ -213,6 +214,11 @@ namespace Model
                     }
                 }
 
+                if (!existenceFlag)
+                {
+
+                    return DataModels.OutpueEnum.unknown;
+                }
 
                 DataContainer.ElementContainer[] desiredElements = new DataContainer.ElementContainer[selfElement.inputNumber];
 
