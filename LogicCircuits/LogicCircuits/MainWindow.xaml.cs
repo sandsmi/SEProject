@@ -12,7 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Windows.Forms;
 
 namespace LogicCircuits
 {
@@ -23,10 +22,15 @@ namespace LogicCircuits
     {
         private bool canDraw { get; set; }
         private string gateImg { get; set; }
+        bool captured { get; set; }
+        UIElement source { get; set; }
+        double xShape, xCanvas, yShape, yCanvas;
         public MainWindow()
         {
             InitializeComponent();
             canDraw = false;
+            captured = false;
+            source = null;
         }
         private void setPropertiesOnClick(string imgUri)
         {
@@ -58,7 +62,7 @@ namespace LogicCircuits
             setPropertiesOnClick("Resources/xor.png");
         }
 
-        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (!canDraw)
                 return;
@@ -72,12 +76,48 @@ namespace LogicCircuits
                 },
                 Name = "Gate"
             };
+            rect.MouseLeftButtonDown += new MouseButtonEventHandler(gate_MouseLeftButtonDown);
+            rect.MouseMove += new MouseEventHandler(gate_MouseMove);
+            rect.MouseUp += new MouseButtonEventHandler(gate_MouseLeftButtonUp);
+
             Surface.Children.Add(rect);
             Canvas.SetLeft(rect, e.GetPosition(Surface).X);
             Canvas.SetTop(rect, e.GetPosition(Surface).Y);
         }
 
-        private void Canvas_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        private void gate_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (canDraw)
+                return;
+            source = (UIElement)sender;
+            Mouse.Capture(source);
+            captured = true;
+            xShape = Canvas.GetLeft(source);
+            xCanvas = e.GetPosition(Surface).X;
+            yShape = Canvas.GetTop(source);
+            yCanvas = e.GetPosition(Surface).Y;
+        }
+
+        private void gate_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (captured)
+            {
+                double x = e.GetPosition(Surface).X;
+                double y = e.GetPosition(Surface).Y;
+                xShape += x - xCanvas;
+                Canvas.SetLeft(source, xShape);
+                xCanvas = x;
+                yShape += y - yCanvas;
+                Canvas.SetTop(source, yShape);
+                yCanvas = y;
+            }
+        }
+        private void gate_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Mouse.Capture(null);
+            captured = false;
+        }
+        private void canvas_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
             if (!canDraw)
                 return;
@@ -134,6 +174,11 @@ namespace LogicCircuits
                 if (image.Name == "Gate")
                     Surface.Children.Remove(image);
             }
+        }
+
+        private void moveClick(object sender, RoutedEventArgs e)
+        {
+            canDraw = false;
         }
     }
 }
