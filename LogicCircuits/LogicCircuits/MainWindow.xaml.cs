@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Forms;
 
 namespace LogicCircuits
 {
@@ -27,7 +28,6 @@ namespace LogicCircuits
             InitializeComponent();
             canDraw = false;
         }
-
         private void setPropertiesOnClick(string imgUri)
         {
             canDraw = true;
@@ -97,6 +97,32 @@ namespace LogicCircuits
 
             Canvas.SetLeft(ellipse, pX);
             Canvas.SetTop(ellipse, pY);
+        }
+
+        private void saveAsClick(object sender, RoutedEventArgs e)
+        {
+            RenderTargetBitmap rtb = new RenderTargetBitmap((int)Surface.RenderSize.Width,
+            (int)Surface.RenderSize.Height, 96d, 96d, System.Windows.Media.PixelFormats.Default);
+            rtb.Render(Surface);
+
+            var crop = new CroppedBitmap(rtb, new Int32Rect(50, 50, 692, 417));
+
+            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+            dlg.FileName = "Screenshot";
+            dlg.DefaultExt = ".png";
+            dlg.Filter = "Image Files (*.bmp, *.png, *.jpg)|*.bmp;*.png;*.jpg";
+
+            Nullable<bool> result = dlg.ShowDialog();
+
+            if (result == true)
+            {
+                BitmapEncoder pngEncoder = new PngBitmapEncoder();
+                pngEncoder.Frames.Add(BitmapFrame.Create(crop));
+                using (var fs = System.IO.File.OpenWrite(dlg.FileName))
+                {
+                    pngEncoder.Save(fs);
+                }
+            }
         }
     }
 }

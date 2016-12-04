@@ -4,16 +4,17 @@
         Title="MainWindow" Height="600" Width="800" Background="LightGray">
     <Grid>
         <Border Background="Transparent"            
-          MouseLeftButtonDown="Border_MouseLeftButtonDown" MouseMove="Canvas_MouseMove">
-            <Canvas Name="Surface" Background="Transparent" >
-                <Rectangle Fill="White" Canvas.Left="65" Canvas.Top="87" Width="692" Height="417" />
+           MouseMove="Canvas_MouseMove">
+            <Canvas Name="Surface" Background="Transparent">
+                <Rectangle Fill="White" MouseLeftButtonDown="Border_MouseLeftButtonDown" Canvas.Left="65" Canvas.Top="87" Width="670" Height="417" />
                 <Button Content="Move" Canvas.Left="327" Canvas.Top="56" Width="147" Height="26"/>
                 <Rectangle Canvas.Left="351" Canvas.Top="522" HorizontalAlignment="Stretch" Fill="MediumBlue" Height="3" Width="372"/>
                 <Rectangle Canvas.Left="351" Canvas.Top="543" HorizontalAlignment="Stretch" Fill="Firebrick" Height="3" Width="372"/>
                 <TextBlock Foreground="Firebrick" Canvas.Left="728" Canvas.Top="533"><Span FontWeight="Bold">1</Span></TextBlock>
-                <TextBlock Foreground="MediumBlue" Canvas.Left="728" Canvas.Top="512"><Span FontWeight="Bold">0</Span></TextBlock>
+                <TextBlock Foreground="MediumBlue" Canvas.Left="728" Canvas.Top="512" ><Span FontWeight="Bold">0</Span></TextBlock>
             </Canvas>
         </Border>
+
         <WrapPanel Margin="149,10,55,449" Orientation="Horizontal" HorizontalAlignment="Center" Width="588">
             <WrapPanel.Resources>
                 <Style TargetType="{x:Type Button}">
@@ -26,7 +27,7 @@
             <Button Content="Prev"/>
             <Button Content="Next"/>
             <Button Content="Save"/>
-            <Button Content="Save As"/>
+            <Button Content="Save As" Click="saveAsClick"/>
             <Button Content="Close"/>
             <Button Content="Info"/>
         </WrapPanel>
