@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -217,6 +218,16 @@ namespace LogicCircuits
             }
             button.Content = "0";
             wire.Fill = new SolidColorBrush(System.Windows.Media.Colors.MediumBlue);
+        }
+
+        private void infoClick(object sender, RoutedEventArgs e)
+        {
+            MyPopup.IsOpen = true;
+        }
+
+        private void hidePopup(object sender, RoutedEventArgs e)
+        {
+            MyPopup.IsOpen = false;
         }
     }
 }

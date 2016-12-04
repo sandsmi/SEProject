@@ -34,7 +34,7 @@
             <Button Content="Save"/>
             <Button Content="Save As" Click="saveAsClick"/>
             <Button Content="Close"/>
-            <Button Content="Info"/>
+            <Button Content="Info" Click="infoClick"/>
         </WrapPanel>
 
         <WrapPanel Margin="96,66,121,449" Orientation="Horizontal">
@@ -59,12 +59,12 @@
                     <Setter Property="Width" Value="15"/>
                 </Style>
             </WrapPanel.Resources>
-            <Button Name="a_Btn" Content="0"/>
-            <Button Name="b_Btn" Content="0"/>
-            <Button Name="c_Btn" Content="0"/>
-            <Button Name="d_Btn" Content="0"/>
-            <Button Name="e_Btn" Content="0"/>
-            <Button Name="f_Btn" Content="0"/>
+            <Button Name="a_Btn" Content="0" Click="a_BtnClick"/>
+            <Button Name="b_Btn" Content="0" Click="b_BtnClick"/>
+            <Button Name="c_Btn" Content="0" Click="c_BtnClick"/>
+            <Button Name="d_Btn" Content="0" Click="d_BtnClick"/>
+            <Button Name="e_Btn" Content="0" Click="e_BtnClick"/>
+            <Button Name="f_Btn" Content="0" Click="f_BtnClick"/>
         </WrapPanel>
 
         <WrapPanel Margin="10,87,719,36" Orientation="Vertical">
@@ -111,6 +111,38 @@
                 </Button.Content>
             </Button>
         </WrapPanel>
+
+        <Popup Name="MyPopup" Placement="Center">
+            <StackPanel Background="LightGray">
+                <Label HorizontalAlignment="Center" Margin="10">
+                    <TextBlock>
+                        Logic Circuits
+                        <LineBreak/>
+                        Version: 0.8
+                        <LineBreak/>
+                        Authors:
+                        <LineBreak/>
+                        • Sandra Śmietana
+                        <LineBreak/>
+                        • Mateusz Michalik
+                        <LineBreak/>
+                        • Aleksander Olszewski
+                        <LineBreak/>
+                        • Kamil Siedlecki
+                        <LineBreak/>
+                        • Bartłomiej Pękala
+                        <LineBreak/>
+                        • Michał Urbaniak
+                        <LineBreak/>
+                        • Zbigniew Marszolik
+                        <LineBreak/>
+                        • Alex Hernandez
+                        <LineBreak/>
+                        • Krzysztof Kurpierz
+                    </TextBlock></Label>
+                <Button Click="hidePopup" Margin="10">Close</Button>
+            </StackPanel>
+        </Popup>
     </Grid>
 
 </Window>
