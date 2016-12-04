@@ -14,3 +14,11 @@ D:\LogicCircuits\LogicCircuits\LogicCircuits\obj\Debug\LogicCircuits.pdb
 C:\Users\Alekej\Desktop\SEProject\LogicCircuits\LogicCircuits\bin\Debug\LogicCircuits.exe.config
 C:\Users\Alekej\Desktop\SEProject\LogicCircuits\LogicCircuits\obj\Debug\LogicCircuits.exe
 C:\Users\Alekej\Desktop\SEProject\LogicCircuits\LogicCircuits\obj\Debug\LogicCircuits.pdb
+D:\LogicCircuits\LogicCircuits\LogicCircuits\bin\Debug\Resources\and.png
+D:\LogicCircuits\LogicCircuits\LogicCircuits\obj\Debug\LogicCircuits_Content.g.cs
+D:\LogicCircuits\LogicCircuits\LogicCircuits\bin\Debug\Resources\nand.png
+D:\LogicCircuits\LogicCircuits\LogicCircuits\bin\Debug\Resources\nor.png
+D:\LogicCircuits\LogicCircuits\LogicCircuits\bin\Debug\Resources\not.png
+D:\LogicCircuits\LogicCircuits\LogicCircuits\bin\Debug\Resources\or.png
+D:\LogicCircuits\LogicCircuits\LogicCircuits\bin\Debug\Resources\xor.png
+D:\LogicCircuits\LogicCircuits\LogicCircuits\bin\Debug\Resources\one.png

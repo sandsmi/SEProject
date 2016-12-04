@@ -14,10 +14,8 @@ namespace Model
             {
                 get
                 {
-
                     if (instance == null)
                     {
-
                         instance = new Data();
                     }
 
@@ -29,13 +27,11 @@ namespace Model
 
             public DataModels.OutpueEnum getResult(int id)
             {
-
                 foreach (ElementContainer element in this.elementList)
                 {
-
                     if (element.id == id)
                     {
-                        return element.state
+                        return element.state;
                     }
                 }
 
@@ -58,8 +54,8 @@ namespace Model
                     if (this.dirty == true)
                     {
                         elem.CalculateOutput(this.id);
-
-                    }else
+                    }
+                    else
                     {
 
                     }
@@ -80,11 +76,7 @@ namespace Model
             public int Y2;
             public bool movable;
             public int inputNumber;
-
-
         }
-
-
     }
 
     namespace DataModels
@@ -98,7 +90,6 @@ namespace Model
 
         public enum GateType
         {
-
             AND, NAND, OR, NOR, NOT
         }
 
@@ -109,7 +100,6 @@ namespace Model
         }
         public enum ElementType
         {
-            
             gateType, rawType
         }
     }
@@ -118,10 +108,9 @@ namespace Model
     {
         public class Element
         {
-
             public  int recurenceCalculation(int inputNumber, int[] outputStates, GateType gateType)
             {
-                if(gateType != GateType.NOT)
+                if (gateType != GateType.NOT)
                 {
                     int[] newOutputStates = new int[inputNumber / 2 + inputNumber % 2];
                     int result = -1;
@@ -137,29 +126,24 @@ namespace Model
                                 break;
 
                             case GateType.NAND:
-
                                 int temporaryResult = outputStates[i] * outputStates[i + 1];
 
                                 if (temporaryResult == 1)
                                     newOutputStates[counter] = 0;
                                 else
                                     newOutputStates[counter] = 1;
-
                                 break;
 
                             case GateType.OR:
-
                                 newOutputStates[counter] = outputStates[i] >= outputStates[i + 1] ? outputStates[i] : outputStates[i + 1];
-
                                 break;
+
                             case GateType.NOR:
-
                                 newOutputStates[counter] = outputStates[i] >= outputStates[i + 1] ? outputStates[i + 1] : outputStates[i];
-
                                 break;
+
                             default:
                                 return -1;
-
                         }
 
                         counter++;
@@ -167,13 +151,11 @@ namespace Model
 
                     if (inputNumber % 2 > 0)
                     {
-
                         newOutputStates[counter + 1] = outputStates[counter + 1];
                     }
 
                     if ((inputNumber / 2 + inputNumber % 2) > 1)
                     {
-
                         this.recurenceCalculation((inputNumber / 2 + inputNumber % 2), newOutputStates, gateType);
                     }
                     else
@@ -183,14 +165,13 @@ namespace Model
                     }
 
                     return -1;
-                }else
+                }
+                else
                 {
-
                     if (outputStates[1] == -1)
                         return -1;
 
                     return outputStates[1] == 1 ? 0 : 1;
-
                 }
 
             }
@@ -202,13 +183,13 @@ namespace Model
 
                 foreach(DataContainer.ElementContainer element in DataContainer.Data.Instance.elementList)
                 {
-
                     if (element.id == myId)
                     {
                         selfElement = element;
                         existenceFlag = true;
                         break;
-                    }else
+                    }
+                    else
                     {
                         existenceFlag = false;
                     }
@@ -216,7 +197,6 @@ namespace Model
 
                 if (!existenceFlag)
                 {
-
                     return DataModels.OutpueEnum.unknown;
                 }
 
@@ -224,7 +204,6 @@ namespace Model
 
                 if (selfElement.elementType == ElementType.gateType)
                 {
-
                     for (int i = 0; i < selfElement.inputNumber; i++)
                     {
 
@@ -232,31 +211,24 @@ namespace Model
 
                         foreach (DataContainer.ElementContainer element in DataContainer.Data.Instance.elementList)
                         {
-
                             if (element.id == id)
                             {
-
                                 desiredElements[i] = element;
                                 break;
                             }
                         }
-
-
                     }
 
                     int[] outputStates = new int[selfElement.inputNumber];
 
                     for (int i = 0; i < selfElement.inputNumber; i++)
                     {
-
                         outputStates[i] = (int)desiredElements[i].state;
 
                         if (outputStates[i] == -1)
                         {
-
                             return OutpueEnum.unknown;
                         }
-
                     }
 
                     int result = this.recurenceCalculation(selfElement.inputNumber, outputStates, selfElement.gateType);
@@ -265,7 +237,6 @@ namespace Model
 
                     switch (result)
                     {
-
                         case 1:
                             state = OutpueEnum.high;
                             break;
@@ -281,14 +252,9 @@ namespace Model
                 }
                 else
                 {
-
                     return selfElement.state;
-
                 }
-
             }
-
-
 
             public bool LinkElem(int targetId, int myId)
             {
@@ -297,7 +263,6 @@ namespace Model
 
             public bool DelElem(int myId)
             {
-
                 return true;
             }
         }
