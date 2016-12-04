@@ -129,7 +129,8 @@ namespace LogicCircuits
                 Fill = new ImageBrush
                 {
                     ImageSource = new BitmapImage(new Uri(gateImg, UriKind.Relative))
-                }
+                },
+                Name = "gate1"
             };
             System.Windows.Point position = e.GetPosition(this);
             double pX = position.X;
@@ -179,6 +180,43 @@ namespace LogicCircuits
         private void moveClick(object sender, RoutedEventArgs e)
         {
             canDraw = false;
+        }
+
+        private void a_BtnClick(object sender, RoutedEventArgs e)
+        {
+            toggleZeroOne(a_Btn, a_wire);
+        }
+        private void b_BtnClick(object sender, RoutedEventArgs e)
+        {
+            toggleZeroOne(b_Btn, b_wire);
+        }
+        private void c_BtnClick(object sender, RoutedEventArgs e)
+        {
+            toggleZeroOne(c_Btn, c_wire);
+        }
+        private void d_BtnClick(object sender, RoutedEventArgs e)
+        {
+            toggleZeroOne(d_Btn, d_wire);
+        }
+        private void e_BtnClick(object sender, RoutedEventArgs e)
+        {
+            toggleZeroOne(e_Btn, e_wire);
+        }
+        private void f_BtnClick(object sender, RoutedEventArgs e)
+        {
+            toggleZeroOne(f_Btn, f_wire);
+        }
+
+        private void toggleZeroOne(Button button, Rectangle wire)
+        {
+            if (button.Content.ToString() == "0")
+            {
+                button.Content = "1";
+                wire.Fill = new SolidColorBrush(System.Windows.Media.Colors.Firebrick);
+                return;
+            }
+            button.Content = "0";
+            wire.Fill = new SolidColorBrush(System.Windows.Media.Colors.MediumBlue);
         }
     }
 }
