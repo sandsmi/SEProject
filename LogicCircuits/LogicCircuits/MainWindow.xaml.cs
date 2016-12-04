@@ -106,7 +106,7 @@ namespace LogicCircuits
             (int)Surface.RenderSize.Height, 96d, 96d, System.Windows.Media.PixelFormats.Default);
             rtb.Render(Surface);
 
-            var crop = new CroppedBitmap(rtb, new Int32Rect(50, 50, 692, 417));
+            var crop = new CroppedBitmap(rtb, new Int32Rect(65, 87, 692, 417));
 
             Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
             dlg.FileName = "Screenshot";
