@@ -69,8 +69,8 @@ namespace LogicCircuits
                 return;
             var rect = new Rectangle
             {
-                Width = 50,
-                Height = 50,
+                Width = 40,
+                Height = 40,
                 Fill = new ImageBrush
                 {
                     ImageSource = new BitmapImage(new Uri(gateImg, UriKind.Relative))

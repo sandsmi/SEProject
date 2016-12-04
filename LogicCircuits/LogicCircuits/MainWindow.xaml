@@ -1,7 +1,7 @@
 ﻿<Window x:Class="LogicCircuits.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="600" Width="800" Background="LightGray">
+        Title="Logic Circuits" Height="600" Width="800" Background="LightGray">
     <Grid>
         <Border Background="Transparent">
             <Canvas Name="Surface" Background="Transparent" MouseMove="canvas_MouseMove">
