@@ -23,7 +23,7 @@
                 </Style>
             </WrapPanel.Resources>
             <Button Content="Load"/>
-            <Button Content="New"/>
+            <Button Content="New" Click="newClick"/>
             <Button Content="Prev"/>
             <Button Content="Next"/>
             <Button Content="Save"/>

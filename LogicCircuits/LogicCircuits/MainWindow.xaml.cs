@@ -69,7 +69,8 @@ namespace LogicCircuits
                 Fill = new ImageBrush
                 {
                     ImageSource = new BitmapImage(new Uri(gateImg, UriKind.Relative))
-                }
+                },
+                Name = "Gate"
             };
             Surface.Children.Add(rect);
             Canvas.SetLeft(rect, e.GetPosition(Surface).X);
@@ -122,6 +123,16 @@ namespace LogicCircuits
                 {
                     pngEncoder.Save(fs);
                 }
+            }
+        }
+
+        private void newClick(object sender, RoutedEventArgs e)
+        {
+            var images = Surface.Children.OfType<Rectangle>().ToList();
+            foreach (var image in images)
+            {
+                if (image.Name == "Gate")
+                    Surface.Children.Remove(image);
             }
         }
     }
