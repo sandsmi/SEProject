@@ -160,7 +160,7 @@ namespace Model
                     }
                     else
                     {
-                        result = newOutputStates[1];
+                        result = newOutputStates[0];
                         return result;
                     }
 
@@ -168,10 +168,10 @@ namespace Model
                 }
                 else
                 {
-                    if (outputStates[1] == -1)
+                    if (outputStates[0] == -1)
                         return -1;
 
-                    return outputStates[1] == 1 ? 0 : 1;
+                    return outputStates[0] == 1 ? 0 : 1;
                 }
 
             }
