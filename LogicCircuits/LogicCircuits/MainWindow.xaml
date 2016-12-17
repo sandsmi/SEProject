@@ -4,17 +4,18 @@
         Title="Logic Circuits" Height="600" Width="800" Background="LightGray">
     <Grid>
         <Border Background="Transparent">
-            <Canvas Name="Surface" Background="Transparent" MouseMove="canvas_MouseMove">
+            <Canvas Name="Surface" Background="Transparent" MouseMove="canvas_MouseMove" MouseUp="canvas_MouseUp">
                 <Rectangle Fill="White" MouseLeftButtonDown="canvas_MouseLeftButtonDown" Canvas.Left="65" Canvas.Top="87" Width="670" Height="417" />
-                <Button Content="Move" Canvas.Left="327" Canvas.Top="56" Width="147" Height="26" Click="moveClick"/>
+                <Button Content="Link" ToolTip="Link gates with wires" Canvas.Left="220" Canvas.Top="56" Width="100" Height="26" Click="linkClick"/>
+                <Button Content="Move" ToolTip="Drag gates around" Canvas.Left="327" Canvas.Top="56" Width="147" Height="26" Click="moveClick"/>
                 <Rectangle Canvas.Left="351" Canvas.Top="522" HorizontalAlignment="Stretch" Fill="MediumBlue" Height="3" Width="372"/>
                 <Rectangle Canvas.Left="351" Canvas.Top="543" HorizontalAlignment="Stretch" Fill="Firebrick" Height="3" Width="372"/>
-                <Rectangle Name="a_wire" Canvas.Left="104" Canvas.Top="85" VerticalAlignment="Stretch" Fill="MediumBlue" Height="419" Width="2"/>
-                <Rectangle Name="b_wire" Canvas.Left="120" Canvas.Top="85" VerticalAlignment="Stretch" Fill="MediumBlue" Height="419" Width="2"/>
-                <Rectangle Name="c_wire" Canvas.Left="137" Canvas.Top="85" VerticalAlignment="Stretch" Fill="MediumBlue" Height="419" Width="2"/>
-                <Rectangle Name="d_wire" Canvas.Left="154" Canvas.Top="85" VerticalAlignment="Stretch" Fill="MediumBlue" Height="419" Width="2"/>
-                <Rectangle Name="e_wire" Canvas.Left="171" Canvas.Top="85" VerticalAlignment="Stretch" Fill="MediumBlue" Height="419" Width="2"/>
-                <Rectangle Name="f_wire" Canvas.Left="188" Canvas.Top="85" VerticalAlignment="Stretch" Fill="MediumBlue" Height="419" Width="2"/>
+                <Rectangle Name="a_wire" Canvas.Left="104" Canvas.Top="85" VerticalAlignment="Stretch" Fill="MediumBlue" Height="419" Width="2" MouseLeftButtonDown="line_MouseLeftButtonDown"/>
+                <Rectangle Name="b_wire" Canvas.Left="120" Canvas.Top="85" VerticalAlignment="Stretch" Fill="MediumBlue" Height="419" Width="2" MouseLeftButtonDown="line_MouseLeftButtonDown"/>
+                <Rectangle Name="c_wire" Canvas.Left="137" Canvas.Top="85" VerticalAlignment="Stretch" Fill="MediumBlue" Height="419" Width="2" MouseLeftButtonDown="line_MouseLeftButtonDown"/>
+                <Rectangle Name="d_wire" Canvas.Left="154" Canvas.Top="85" VerticalAlignment="Stretch" Fill="MediumBlue" Height="419" Width="2" MouseLeftButtonDown="line_MouseLeftButtonDown"/>
+                <Rectangle Name="e_wire" Canvas.Left="171" Canvas.Top="85" VerticalAlignment="Stretch" Fill="MediumBlue" Height="419" Width="2" MouseLeftButtonDown="line_MouseLeftButtonDown"/>
+                <Rectangle Name="f_wire" Canvas.Left="188" Canvas.Top="85" VerticalAlignment="Stretch" Fill="MediumBlue" Height="419" Width="2" MouseLeftButtonDown="line_MouseLeftButtonDown"/>
                 <TextBlock Foreground="Firebrick" Canvas.Left="728" Canvas.Top="533"><Span FontWeight="Bold">1</Span></TextBlock>
                 <TextBlock Foreground="MediumBlue" Canvas.Left="728" Canvas.Top="512" ><Span FontWeight="Bold">0</Span></TextBlock>
             </Canvas>
@@ -28,13 +29,13 @@
                 </Style>
             </WrapPanel.Resources>
             <Button Content="Load"/>
-            <Button Content="New" Click="newClick"/>
+            <Button Content="New" ToolTip="Clear the canvas" Click="newClick"/>
             <Button Content="Prev"/>
             <Button Content="Next"/>
             <Button Content="Save"/>
-            <Button Content="Save As" Click="saveAsClick"/>
+            <Button Content="Save As" ToolTip="Save a screenshot" Click="saveAsClick"/>
             <Button Content="Close"/>
-            <Button Content="Info" Click="infoClick"/>
+            <Button Content="Info" ToolTip="Information about the application" Click="infoClick"/>
         </WrapPanel>
 
         <WrapPanel Margin="96,66,121,449" Orientation="Horizontal">
@@ -74,32 +75,32 @@
                     <Setter Property="Width" Value="15"/>
                 </Style>
             </WrapPanel.Resources>
-            <Button Height="45" Width="45" Click="andClick" Focusable="True">
+            <Button ToolTip="AND gate" Height="45" Width="45" Click="andClick" Focusable="True">
                 <Button.Content>
-                    <Image Source="Resources/and.png" />
+                    <Image Source="Resources/and.png" x:Name="rec"/>
                 </Button.Content>
             </Button>
-            <Button Height="45" Width="45" Click="orClick">
+            <Button ToolTip="OR gate" Height="45" Width="45" Click="orClick">
                 <Button.Content>
                     <Image Source="Resources/or.png" />
                 </Button.Content>
             </Button>
-            <Button Height="45" Width="45" Click="notClick">
+            <Button ToolTip="NOT gate" Height="45" Width="45" Click="notClick">
                 <Button.Content>
                     <Image Source="Resources/not.png" />
                 </Button.Content>
             </Button>
-            <Button Height="45" Width="45" Click="nandClick">
+            <Button ToolTip="NAND gate" Height="45" Width="45" Click="nandClick">
                 <Button.Content>
                     <Image Source="Resources/nand.png" />
                 </Button.Content>
             </Button>
-            <Button Height="45" Width="45" Click="norClick">
+            <Button ToolTip="NOR gate" Height="45" Width="45" Click="norClick">
                 <Button.Content>
                     <Image Source="Resources/nor.png" />
                 </Button.Content>
             </Button>
-            <Button Height="45" Width="45" Click="xorClick">
+            <Button ToolTip="XOR gate" Height="45" Width="45" Click="xorClick">
                 <Button.Content>
                     <Image Source="Resources/xor.png" />
                 </Button.Content>

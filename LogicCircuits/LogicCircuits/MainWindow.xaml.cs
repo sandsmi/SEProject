@@ -22,47 +22,45 @@ namespace LogicCircuits
     public partial class MainWindow : Window
     {
         private bool canDraw { get; set; }
+        private bool canLink { get; set; }
         private string gateImg { get; set; }
         bool captured { get; set; }
         UIElement source { get; set; }
         double xShape, xCanvas, yShape, yCanvas;
+        Point spt, ept;
+
         public MainWindow()
         {
             InitializeComponent();
             canDraw = false;
+            canLink = false;
             captured = false;
             source = null;
         }
-        private void setPropertiesOnClick(string imgUri)
-        {
-            canDraw = true;
-            gateImg = imgUri;
-        }
-        private void andClick(object sender, RoutedEventArgs e)
-        {
-            setPropertiesOnClick("Resources/and.png");
-        }
-        private void orClick(object sender, RoutedEventArgs e)
-        {
-            setPropertiesOnClick("Resources/or.png");
-        }
-        private void notClick(object sender, RoutedEventArgs e)
-        {
-            setPropertiesOnClick("Resources/not.png");
-        }
-        private void nandClick(object sender, RoutedEventArgs e)
-        {
-            setPropertiesOnClick("Resources/nand.png");
-        }
-        private void norClick(object sender, RoutedEventArgs e)
-        {
-            setPropertiesOnClick("Resources/nor.png");
-        }
-        private void xorClick(object sender, RoutedEventArgs e)
-        {
-            setPropertiesOnClick("Resources/xor.png");
-        }
 
+        private void line_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (!canLink)
+                return;
+            spt = e.GetPosition(Surface);
+            int mX = (int)e.GetPosition(Surface).X;
+            int mY = (int)e.GetPosition(Surface).Y;
+            Ellipse el = new Ellipse();
+            el.Width = 6;
+            el.Height = 6;
+            el.SetValue(Canvas.LeftProperty, (Double)(mX - 3));
+            el.SetValue(Canvas.TopProperty, (Double)(mY - 3));
+            el.Fill = Brushes.MediumBlue;
+
+            Surface.Children.Add(el);
+
+        }
+        private void canvas_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+           // ept = e.GetPosition(Surface);
+
+           // DrawLine(spt, ept);
+        }
         private void canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (!canDraw)
@@ -85,10 +83,17 @@ namespace LogicCircuits
             Canvas.SetLeft(rect, e.GetPosition(Surface).X);
             Canvas.SetTop(rect, e.GetPosition(Surface).Y);
         }
+        private void canvas_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+                ept = e.GetPosition(Surface);
+        }
 
         private void gate_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (canDraw)
+            if (canLink)
+                spt = e.GetPosition(Surface);
+            if (canDraw || canLink)
                 return;
             source = (UIElement)sender;
             Mouse.Capture(source);
@@ -115,33 +120,24 @@ namespace LogicCircuits
         }
         private void gate_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
+            if (canLink)
+            {
+                ept = e.GetPosition(Surface);
+                DrawLine(spt, ept);
+            }
             Mouse.Capture(null);
             captured = false;
         }
-        private void canvas_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+
+        private void newClick(object sender, RoutedEventArgs e)
         {
-            if (!canDraw)
-                return;
-            
-            var ellipse = new Rectangle
+            var images = Surface.Children.OfType<Rectangle>().ToList();
+            foreach (var image in images)
             {
-                Width = 50,
-                Height = 50,
-                Fill = new ImageBrush
-                {
-                    ImageSource = new BitmapImage(new Uri(gateImg, UriKind.Relative))
-                },
-                Name = "gate1"
-            };
-            System.Windows.Point position = e.GetPosition(this);
-            double pX = position.X;
-            double pY = position.Y;
-
-
-            Canvas.SetLeft(ellipse, pX);
-            Canvas.SetTop(ellipse, pY);
+                if (image.Name == "Gate")
+                    Surface.Children.Remove(image);
+            }
         }
-
         private void saveAsClick(object sender, RoutedEventArgs e)
         {
             RenderTargetBitmap rtb = new RenderTargetBitmap((int)Surface.RenderSize.Width,
@@ -168,21 +164,35 @@ namespace LogicCircuits
             }
         }
 
-        private void newClick(object sender, RoutedEventArgs e)
-        {
-            var images = Surface.Children.OfType<Rectangle>().ToList();
-            foreach (var image in images)
-            {
-                if (image.Name == "Gate")
-                    Surface.Children.Remove(image);
-            }
-        }
-
         private void moveClick(object sender, RoutedEventArgs e)
         {
             canDraw = false;
+            canLink = false;
         }
-
+        private void andClick(object sender, RoutedEventArgs e)
+        {
+            setPropertiesOnClick("Resources/and.png");
+        }
+        private void orClick(object sender, RoutedEventArgs e)
+        {
+            setPropertiesOnClick("Resources/or.png");
+        }
+        private void notClick(object sender, RoutedEventArgs e)
+        {
+            setPropertiesOnClick("Resources/not.png");
+        }
+        private void nandClick(object sender, RoutedEventArgs e)
+        {
+            setPropertiesOnClick("Resources/nand.png");
+        }
+        private void norClick(object sender, RoutedEventArgs e)
+        {
+            setPropertiesOnClick("Resources/nor.png");
+        }
+        private void xorClick(object sender, RoutedEventArgs e)
+        {
+            setPropertiesOnClick("Resources/xor.png");
+        }
         private void a_BtnClick(object sender, RoutedEventArgs e)
         {
             toggleZeroOne(a_Btn, a_wire);
@@ -208,6 +218,16 @@ namespace LogicCircuits
             toggleZeroOne(f_Btn, f_wire);
         }
 
+        private void infoClick(object sender, RoutedEventArgs e)
+        {
+            MyPopup.IsOpen = true;
+        }
+
+        private void linkClick(object sender, RoutedEventArgs e)
+        {
+            canLink = true;
+            canDraw = false;
+        }
         private void toggleZeroOne(Button button, Rectangle wire)
         {
             if (button.Content.ToString() == "0")
@@ -219,12 +239,27 @@ namespace LogicCircuits
             button.Content = "0";
             wire.Fill = new SolidColorBrush(System.Windows.Media.Colors.MediumBlue);
         }
-
-        private void infoClick(object sender, RoutedEventArgs e)
+        private void setPropertiesOnClick(string imgUri)
         {
-            MyPopup.IsOpen = true;
+            canDraw = true;
+            canLink = false;
+            gateImg = imgUri;
         }
+        void DrawLine(Point spt, Point ept)
+        {
+            Line link = new Line();
+            link.X1 = spt.X;
+            link.Y1 = spt.Y;
+            link.X2 = ept.X;
+            link.Y2 = ept.Y;
 
+            link.Stroke = Brushes.MediumBlue;
+            link.StrokeThickness = 2;
+
+            //var lines = Surface.Children.OfType<Line>().ToList();
+
+            Surface.Children.Add(link);
+        }
         private void hidePopup(object sender, RoutedEventArgs e)
         {
             MyPopup.IsOpen = false;
