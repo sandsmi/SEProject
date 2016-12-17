@@ -23,17 +23,19 @@ namespace LogicCircuits
     {
         private bool canDraw { get; set; }
         private bool canLink { get; set; }
+        private bool canDelete { get; set; }
         private string gateImg { get; set; }
         bool captured { get; set; }
         UIElement source { get; set; }
         double xShape, xCanvas, yShape, yCanvas;
-        Point spt, ept;
+        Point lineStartPoint, lineEndPoint;
 
         public MainWindow()
         {
             InitializeComponent();
             canDraw = false;
             canLink = false;
+            canDelete = false;
             captured = false;
             source = null;
         }
@@ -42,7 +44,7 @@ namespace LogicCircuits
         {
             if (!canLink)
                 return;
-            spt = e.GetPosition(Surface);
+            lineStartPoint = e.GetPosition(Surface);
             int mX = (int)e.GetPosition(Surface).X;
             int mY = (int)e.GetPosition(Surface).Y;
             Ellipse el = new Ellipse();
@@ -53,13 +55,12 @@ namespace LogicCircuits
             el.Fill = Brushes.MediumBlue;
 
             Surface.Children.Add(el);
-
         }
-        private void canvas_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-           // ept = e.GetPosition(Surface);
 
-           // DrawLine(spt, ept);
+        private void wire_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (canDelete)
+                removeElement(e);
         }
         private void canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -86,13 +87,15 @@ namespace LogicCircuits
         private void canvas_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
-                ept = e.GetPosition(Surface);
+                lineEndPoint = e.GetPosition(Surface);
         }
 
         private void gate_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (canDelete)
+                removeElement(e);
             if (canLink)
-                spt = e.GetPosition(Surface);
+                lineStartPoint = e.GetPosition(Surface);
             if (canDraw || canLink)
                 return;
             source = (UIElement)sender;
@@ -122,8 +125,8 @@ namespace LogicCircuits
         {
             if (canLink)
             {
-                ept = e.GetPosition(Surface);
-                DrawLine(spt, ept);
+                lineEndPoint = e.GetPosition(Surface);
+                DrawLine(lineStartPoint, lineEndPoint);
             }
             Mouse.Capture(null);
             captured = false;
@@ -163,11 +166,15 @@ namespace LogicCircuits
                 }
             }
         }
-
+        private void deleteClick(object sender, RoutedEventArgs e)
+        {
+            canDelete = true;
+        }
         private void moveClick(object sender, RoutedEventArgs e)
         {
             canDraw = false;
             canLink = false;
+            canDelete = false;
         }
         private void andClick(object sender, RoutedEventArgs e)
         {
@@ -217,16 +224,15 @@ namespace LogicCircuits
         {
             toggleZeroOne(f_Btn, f_wire);
         }
-
         private void infoClick(object sender, RoutedEventArgs e)
         {
             MyPopup.IsOpen = true;
         }
-
         private void linkClick(object sender, RoutedEventArgs e)
         {
             canLink = true;
             canDraw = false;
+            canDelete = false;
         }
         private void toggleZeroOne(Button button, Rectangle wire)
         {
@@ -243,6 +249,7 @@ namespace LogicCircuits
         {
             canDraw = true;
             canLink = false;
+            canDelete = false;
             gateImg = imgUri;
         }
         void DrawLine(Point spt, Point ept)
@@ -255,10 +262,14 @@ namespace LogicCircuits
 
             link.Stroke = Brushes.MediumBlue;
             link.StrokeThickness = 2;
-
-            //var lines = Surface.Children.OfType<Line>().ToList();
+            link.MouseLeftButtonDown += new MouseButtonEventHandler(wire_MouseLeftButtonDown);
 
             Surface.Children.Add(link);
+        }
+        private void removeElement(RoutedEventArgs e)
+        {
+            UIElement element = (UIElement)e.OriginalSource;
+            Surface.Children.Remove(element);
         }
         private void hidePopup(object sender, RoutedEventArgs e)
         {

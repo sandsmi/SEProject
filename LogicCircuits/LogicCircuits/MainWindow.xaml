@@ -4,10 +4,11 @@
         Title="Logic Circuits" Height="600" Width="800" Background="LightGray">
     <Grid>
         <Border Background="Transparent">
-            <Canvas Name="Surface" Background="Transparent" MouseMove="canvas_MouseMove" MouseUp="canvas_MouseUp">
+            <Canvas Name="Surface" Background="Transparent" MouseMove="canvas_MouseMove">
                 <Rectangle Fill="White" MouseLeftButtonDown="canvas_MouseLeftButtonDown" Canvas.Left="65" Canvas.Top="87" Width="670" Height="417" />
                 <Button Content="Link" ToolTip="Link gates with wires" Canvas.Left="220" Canvas.Top="56" Width="100" Height="26" Click="linkClick"/>
                 <Button Content="Move" ToolTip="Drag gates around" Canvas.Left="327" Canvas.Top="56" Width="147" Height="26" Click="moveClick"/>
+                <Button Content="Delete" ToolTip="Delete gates or wires" Canvas.Left="480" Canvas.Top="56" Width="100" Height="26" Click="deleteClick"/>
                 <Rectangle Canvas.Left="351" Canvas.Top="522" HorizontalAlignment="Stretch" Fill="MediumBlue" Height="3" Width="372"/>
                 <Rectangle Canvas.Left="351" Canvas.Top="543" HorizontalAlignment="Stretch" Fill="Firebrick" Height="3" Width="372"/>
                 <Rectangle Name="a_wire" Canvas.Left="104" Canvas.Top="85" VerticalAlignment="Stretch" Fill="MediumBlue" Height="419" Width="2" MouseLeftButtonDown="line_MouseLeftButtonDown"/>
