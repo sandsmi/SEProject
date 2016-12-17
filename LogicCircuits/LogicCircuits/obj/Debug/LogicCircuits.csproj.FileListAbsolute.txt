@@ -22,3 +22,9 @@ D:\LogicCircuits\LogicCircuits\LogicCircuits\bin\Debug\Resources\not.png
 D:\LogicCircuits\LogicCircuits\LogicCircuits\bin\Debug\Resources\or.png
 D:\LogicCircuits\LogicCircuits\LogicCircuits\bin\Debug\Resources\xor.png
 D:\LogicCircuits\LogicCircuits\LogicCircuits\bin\Debug\Resources\one.png
+D:\LogicCircuits\LogicCircuits\LogicCircuits\bin\Debug\Resources\small_and.png
+D:\LogicCircuits\LogicCircuits\LogicCircuits\bin\Debug\Resources\small_nand.png
+D:\LogicCircuits\LogicCircuits\LogicCircuits\bin\Debug\Resources\small_nor.png
+D:\LogicCircuits\LogicCircuits\LogicCircuits\bin\Debug\Resources\small_not.png
+D:\LogicCircuits\LogicCircuits\LogicCircuits\bin\Debug\Resources\small_or.png
+D:\LogicCircuits\LogicCircuits\LogicCircuits\bin\Debug\Resources\small_xor.png

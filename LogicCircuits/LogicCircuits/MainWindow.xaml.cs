@@ -92,13 +92,15 @@ namespace LogicCircuits
 
         private void gate_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            source = (UIElement)sender;
             if (canDelete)
                 removeElement(e);
             if (canLink)
+            {
                 lineStartPoint = e.GetPosition(Surface);
+            }
             if (canDraw || canLink)
                 return;
-            source = (UIElement)sender;
             Mouse.Capture(source);
             captured = true;
             xShape = Canvas.GetLeft(source);
@@ -178,27 +180,27 @@ namespace LogicCircuits
         }
         private void andClick(object sender, RoutedEventArgs e)
         {
-            setPropertiesOnClick("Resources/and.png");
+            setPropertiesOnClick("Resources/small_and.png");
         }
         private void orClick(object sender, RoutedEventArgs e)
         {
-            setPropertiesOnClick("Resources/or.png");
+            setPropertiesOnClick("Resources/small_or.png");
         }
         private void notClick(object sender, RoutedEventArgs e)
         {
-            setPropertiesOnClick("Resources/not.png");
+            setPropertiesOnClick("Resources/small_not.png");
         }
         private void nandClick(object sender, RoutedEventArgs e)
         {
-            setPropertiesOnClick("Resources/nand.png");
+            setPropertiesOnClick("Resources/small_nand.png");
         }
         private void norClick(object sender, RoutedEventArgs e)
         {
-            setPropertiesOnClick("Resources/nor.png");
+            setPropertiesOnClick("Resources/small_nor.png");
         }
         private void xorClick(object sender, RoutedEventArgs e)
         {
-            setPropertiesOnClick("Resources/xor.png");
+            setPropertiesOnClick("Resources/small_xor.png");
         }
         private void a_BtnClick(object sender, RoutedEventArgs e)
         {
