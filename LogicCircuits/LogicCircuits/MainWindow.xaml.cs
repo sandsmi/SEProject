@@ -137,10 +137,20 @@ namespace LogicCircuits
         private void newClick(object sender, RoutedEventArgs e)
         {
             var images = Surface.Children.OfType<Rectangle>().ToList();
+            var wires = Surface.Children.OfType<Line>().ToList();
+            var points = Surface.Children.OfType<Ellipse>().ToList();
             foreach (var image in images)
             {
                 if (image.Name == "Gate")
                     Surface.Children.Remove(image);
+            }
+            foreach (var wire in wires)
+            {
+                Surface.Children.Remove(wire);
+            }
+            foreach (var point in points)
+            {
+                Surface.Children.Remove(point);
             }
         }
         private void saveAsClick(object sender, RoutedEventArgs e)
