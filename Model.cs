@@ -175,39 +175,41 @@ namespace Model
 
             public static void CreateNewGate(string gateImg, string id)
             {
-                if (gateImg == "Resources / and.png")
+                System.Diagnostics.Debug.Write("gateImg string:" + gateImg + "\n");
+                if (gateImg == "Resources/and.png")
                 {
-
+                    System.Diagnostics.Debug.Write("And" + "\n");
                     CreateAndGate(id);
                 }
-                else if (gateImg == "Resources / nand.png")
+                else if (gateImg == "Resources/small_nand.png")
                 {
-
-                    CreateOrGate(id);
-                }
-                else if (gateImg == "Resources / nor.png")
-                {
-                    CreateNotGate(id);
-
-
-                }
-                else if (gateImg == "Resources / not.png")
-                {
-
+                    System.Diagnostics.Debug.Write("nAnd" + "\n");
                     CreateNandGate(id);
                 }
-                else if (gateImg == "Resources / one.png")
+                else if (gateImg == "Resources/small_nor.png")
                 {
-
+                    System.Diagnostics.Debug.Write("nor" + "\n");
                     CreateNorGate(id);
+
+
                 }
-                else if (gateImg == "Resources /or.png")
+                else if (gateImg == "Resources/small_not.png")
                 {
+                    System.Diagnostics.Debug.Write("not" + "\n");
 
-                    CreateNorGate(id);
+                    CreateNotGate(id);
                 }
-                else
-                    CreateAndGate(id);
+                else if (gateImg == "Resources/small_one.png")
+                {
+                    System.Diagnostics.Debug.Write("one" + "\n");
+                    CreateOneGate(id);
+                }
+                else if (gateImg == "Resources/small_or.png")
+                {
+                    System.Diagnostics.Debug.Write("And" + "\n");
+                    CreateOrGate(id);
+                }
+               
 
 
 
