@@ -8,20 +8,22 @@ namespace Model
 
     namespace LogicOperations
     {
-        public class Operations
+        public static class Operations
         {
-            public void calculation(ElementContainer ec)
+            public static ElementContainer calculation(ElementContainer ec)
             {
                 if ( ec.gateType != GateType.ONE)
                 {
                     switch (ec.gateType)
                     {
                         case GateType.AND:
+                            System.Diagnostics.Debug.Write("and gate detected:" +"input 1: "+ec.inputs[0]+"input 2: "+ec.inputs[1]+ "\n");
                             if (ec.inputs[0] == false && ec.inputs[1] == false) ec.output = false;
                             else if (ec.inputs[0] == false && ec.inputs[1] == true) ec.output = false;
                             else if (ec.inputs[0] == true && ec.inputs[1] == false) ec.output = false;
                             else if (ec.inputs[0] == true && ec.inputs[1] == true) ec.output = true;
                             else;
+                            System.Diagnostics.Debug.Write("Output" + ec.output + "\n");
                             break;
                         case GateType.NAND:
                             if (ec.inputs[0] == false && ec.inputs[1] == false) ec.output = true;
@@ -62,10 +64,12 @@ namespace Model
                     }
                 }
                 else ;
+
+                return ec;
             }
 
             //not used, delete it please if it is still gonna be here
-            public void calculation2(ElementContainer ec)
+            public static void calculation2(ElementContainer ec)
             {
                 if (ec.gateType == GateType.NOT)
                 {
@@ -85,8 +89,13 @@ namespace Model
 
       public static class DataContainer
         {
+
+           
+            public static int idCounter=1;
+            //all stored gates
            static List<ElementContainer>  gatesList = new List<ElementContainer>();
 
+            //wires from main wire and the wires between gates
             static List<ElementContainer> wiresList = new List<ElementContainer>();
 
             //basic wires on the left
@@ -111,57 +120,97 @@ namespace Model
             }
 
 
-            //sets new object instance based on provided iId
-            public static void AssingObjectByID(string iId, ElementContainer ec)
+            public static void UpdateObject( ElementContainer ec)
             {
-                foreach(ElementContainer e in gatesList)
+
+                for(int i=0;i<gatesList.Count;i++)
                 {
-                    if(e.Uid==iId)
+                    if(gatesList[i].Uid==ec.Uid)
+                    {
+                        gatesList[i] = ec;
+                    }
+                }
+              
+               
+
+                
+            }
+
+
+            //sets new object instance based on provided iId
+            public static ElementContainer AssingObjectByID(string iId, ElementContainer ec)
+            {
+
+                System.Diagnostics.Debug.Write("Assign function id :"+ iId);
+                foreach (ElementContainer e in gatesList)
+                {
+                    System.Diagnostics.Debug.Write("Assign function id of gate :" + e.Uid);
+                    if (e.Uid.Equals(iId))
+                    {
+                        
+                        ec = e;
+                        
+                        break;
+                    }
+                }
+
+                return ec;
+            }
+
+            //sets new object instance based on provided iId
+            public static ElementContainer AssingWireByID(string iId, ElementContainer ec)
+            {
+                foreach (ElementContainer e in wiresList)
+                {
+                    if (e.Uid.Equals(iId))
                     {
                         ec = e;
                         break;
                     }
                 }
-
+                return ec;
             }
-
 
             // bool flag = false;
 
             public static void CreateNewGate(string gateImg, string id)
             {
-                if (gateImg == "Resources / and.png")
+                System.Diagnostics.Debug.Write("gateImg string:" + gateImg + "\n");
+                if (gateImg == "Resources/and.png")
                 {
-
+                    System.Diagnostics.Debug.Write("And" + "\n");
                     CreateAndGate(id);
                 }
-                else if (gateImg == "Resources / nand.png")
+                else if (gateImg == "Resources/small_nand.png")
                 {
-
-                    CreateOrGate(id);
-                }
-                else if (gateImg == "Resources / nor.png")
-                {
-                    CreateNotGate(id);
-
-
-                }
-                else if (gateImg == "Resources / not.png")
-                {
-
+                    System.Diagnostics.Debug.Write("nAnd" + "\n");
                     CreateNandGate(id);
                 }
-                else if (gateImg == "Resources / one.png")
+                else if (gateImg == "Resources/small_nor.png")
                 {
-
+                    System.Diagnostics.Debug.Write("nor" + "\n");
                     CreateNorGate(id);
+
+
                 }
-                else if (gateImg == "Resources /or.png")
+                else if (gateImg == "Resources/small_not.png")
                 {
+                    System.Diagnostics.Debug.Write("not" + "\n");
 
-                    CreateNorGate(id);
+                    CreateNotGate(id);
                 }
-              
+                else if (gateImg == "Resources/small_one.png")
+                {
+                    System.Diagnostics.Debug.Write("one" + "\n");
+                    CreateOneGate(id);
+                }
+                else if (gateImg == "Resources/small_or.png")
+                {
+                    System.Diagnostics.Debug.Write("And" + "\n");
+                    CreateOrGate(id);
+                }
+               
+
 
 
             }
@@ -175,6 +224,8 @@ namespace Model
                 //by default the inputs are set to false
                 newElementContainer.inputs[0] = false;
                 newElementContainer.inputs[1] = false;
+                newElementContainer.firstWireSet = false;
+                newElementContainer.secondWireSet = false;
                 newElementContainer.Uid = iId;
                 gatesList.Add(newElementContainer);
 
@@ -190,6 +241,8 @@ namespace Model
                 //by default the inputs are set to false
                 newElementContainer.inputs[0] = false;
                 newElementContainer.inputs[1] = false;
+                newElementContainer.firstWireSet = false;
+                newElementContainer.secondWireSet = false;
 
                 newElementContainer.Uid = iId;
                 gatesList.Add(newElementContainer);
@@ -199,6 +252,11 @@ namespace Model
                 ElementContainer newElementContainer = new ElementContainer();
                 newElementContainer.gateType = GateType.NOT;
                 newElementContainer.elementType = ElementType.gateType;
+                newElementContainer.inputs = new bool[2];
+                newElementContainer.inputs[0] = false;
+                
+                newElementContainer.firstWireSet = false;
+                
                 newElementContainer.Uid = iId;
                 gatesList.Add(newElementContainer);
             }
@@ -211,6 +269,8 @@ namespace Model
                 //by default the inputs are set to false
                 newElementContainer.inputs[0] = false;
                 newElementContainer.inputs[1] = false;
+                newElementContainer.firstWireSet = false;
+                newElementContainer.secondWireSet = false;
                 newElementContainer.Uid = iId;
                 gatesList.Add(newElementContainer);
             }
@@ -223,6 +283,8 @@ namespace Model
                 //by default the inputs are set to false
                 newElementContainer.inputs[0] = false;
                 newElementContainer.inputs[1] = false;
+                newElementContainer.firstWireSet = false;
+                newElementContainer.secondWireSet = false;
                 newElementContainer.Uid = iId;
                 gatesList.Add(newElementContainer);
             }
@@ -231,7 +293,7 @@ namespace Model
                 ElementContainer newElementContainer = new ElementContainer();
                 newElementContainer.gateType = GateType.ONE;
                 newElementContainer.elementType = ElementType.gateType;
-                
+                newElementContainer.output = true;
                 newElementContainer.Uid = iId;
                 gatesList.Add(newElementContainer);
             }
@@ -240,6 +302,13 @@ namespace Model
                 ElementContainer newElementContainer = new ElementContainer();
                 newElementContainer.gateType = GateType.XOR;
                 newElementContainer.elementType = ElementType.gateType;
+
+                newElementContainer.inputs = new bool[2];
+                //by default the inputs are set to false
+                newElementContainer.inputs[0] = false;
+                newElementContainer.inputs[1] = false;
+                newElementContainer.firstWireSet = false;
+                newElementContainer.secondWireSet = false;
 
                 newElementContainer.Uid = iId;
                 gatesList.Add(newElementContainer);
@@ -295,6 +364,10 @@ namespace Model
 
             //inputs to gate on wchich base output is calculated
             public bool[] inputs;
+
+            public bool firstWireSet;
+            public bool secondWireSet;
+
 
             public bool output;
             //string id, cuz ui objects use string ids

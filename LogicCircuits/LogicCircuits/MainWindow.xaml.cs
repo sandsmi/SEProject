@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 
 //our logic code 
 using Model.DataContainer;
+using Model.LogicOperations;
 using Model.DataModels;
 using Model.ElementInformator;
 using Model.Elements;
@@ -39,10 +40,11 @@ namespace LogicCircuits
         UIElement source { get; set; }
         double xShape, xCanvas, yShape, yCanvas;
         Point lineStartPoint, lineEndPoint;
-        ElementContainer elem;
 
+        string drawingGate;
         ElementContainer startingGate;
         ElementContainer endingGate;
+        ElementContainer latestWire;
         public MainWindow()
         {
             InitializeComponent();
@@ -53,12 +55,91 @@ namespace LogicCircuits
             source = null;
             drawFromWireToGate = false;
             drawFromGateToGate = false;
+           startingGate=new ElementContainer();
+            startingGate.inputs = new bool[2];
+            endingGate = new ElementContainer();
+            endingGate.inputs = new bool[2];
+            latestWire = new ElementContainer();
         }
 
-        private void line_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void line_MouseLeftButtonDownA(object sender, MouseButtonEventArgs e)
         {
 
-            //how to get the wire value?
+            drawingGate = "a";
+            if (!canLink)
+            {
+                drawFromWireToGate = false;
+                return;
+            }
+            drawFromWireToGate = true;
+            drawFromGateToGate = false;
+            lineStartPoint = e.GetPosition(Surface);
+            int mX = (int)e.GetPosition(Surface).X;
+            int mY = (int)e.GetPosition(Surface).Y;
+            Ellipse el = new Ellipse();
+            el.Width = 6;
+            el.Height = 6;
+            el.SetValue(Canvas.LeftProperty, (Double)(mX - 3));
+            el.SetValue(Canvas.TopProperty, (Double)(mY - 3));
+            el.Fill = Brushes.MediumBlue;
+
+            Surface.Children.Add(el);
+        }
+
+        private void line_MouseLeftButtonDownB(object sender, MouseButtonEventArgs e)
+        {
+
+            drawingGate = "b";
+
+            if (!canLink)
+            {
+                drawFromWireToGate = false;
+                return;
+            }
+            drawFromWireToGate = true;
+            drawFromGateToGate = false;
+            lineStartPoint = e.GetPosition(Surface);
+            int mX = (int)e.GetPosition(Surface).X;
+            int mY = (int)e.GetPosition(Surface).Y;
+            Ellipse el = new Ellipse();
+            el.Width = 6;
+            el.Height = 6;
+            el.SetValue(Canvas.LeftProperty, (Double)(mX - 3));
+            el.SetValue(Canvas.TopProperty, (Double)(mY - 3));
+            el.Fill = Brushes.MediumBlue;
+
+            Surface.Children.Add(el);
+        }
+
+        private void line_MouseLeftButtonDownC(object sender, MouseButtonEventArgs e)
+        {
+
+            drawingGate = "c";
+            if (!canLink)
+            {
+                drawFromWireToGate = false;
+                return;
+            }
+            drawFromWireToGate = true;
+            drawFromGateToGate = false;
+            lineStartPoint = e.GetPosition(Surface);
+            int mX = (int)e.GetPosition(Surface).X;
+            int mY = (int)e.GetPosition(Surface).Y;
+            Ellipse el = new Ellipse();
+            el.Width = 6;
+            el.Height = 6;
+            el.SetValue(Canvas.LeftProperty, (Double)(mX - 3));
+            el.SetValue(Canvas.TopProperty, (Double)(mY - 3));
+            el.Fill = Brushes.MediumBlue;
+
+            Surface.Children.Add(el);
+        }
+
+        private void line_MouseLeftButtonDownD(object sender, MouseButtonEventArgs e)
+        {
+
+            drawingGate = "d";
+
             if (!canLink)
             {
                 drawFromWireToGate = false;
@@ -80,6 +161,55 @@ namespace LogicCircuits
         }
 
 
+        private void line_MouseLeftButtonDownE(object sender, MouseButtonEventArgs e)
+        {
+
+            drawingGate = "e";
+
+            if (!canLink)
+            {
+                drawFromWireToGate = false;
+                return;
+            }
+            drawFromWireToGate = true;
+            drawFromGateToGate = false;
+            lineStartPoint = e.GetPosition(Surface);
+            int mX = (int)e.GetPosition(Surface).X;
+            int mY = (int)e.GetPosition(Surface).Y;
+            Ellipse el = new Ellipse();
+            el.Width = 6;
+            el.Height = 6;
+            el.SetValue(Canvas.LeftProperty, (Double)(mX - 3));
+            el.SetValue(Canvas.TopProperty, (Double)(mY - 3));
+            el.Fill = Brushes.MediumBlue;
+
+            Surface.Children.Add(el);
+        }
+
+        private void line_MouseLeftButtonDownF(object sender, MouseButtonEventArgs e)
+        {
+
+            drawingGate = "f";
+
+            if (!canLink)
+            {
+                drawFromWireToGate = false;
+                return;
+            }
+            drawFromWireToGate = true;
+            drawFromGateToGate = false;
+            lineStartPoint = e.GetPosition(Surface);
+            int mX = (int)e.GetPosition(Surface).X;
+            int mY = (int)e.GetPosition(Surface).Y;
+            Ellipse el = new Ellipse();
+            el.Width = 6;
+            el.Height = 6;
+            el.SetValue(Canvas.LeftProperty, (Double)(mX - 3));
+            el.SetValue(Canvas.TopProperty, (Double)(mY - 3));
+            el.Fill = Brushes.MediumBlue;
+
+            Surface.Children.Add(el);
+        }
 
 
         private void wire_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -104,13 +234,18 @@ namespace LogicCircuits
             rect.MouseLeftButtonDown += new MouseButtonEventHandler(gate_MouseLeftButtonDown);
             rect.MouseMove += new MouseEventHandler(gate_MouseMove);
             rect.MouseUp += new MouseButtonEventHandler(gate_MouseLeftButtonUp);
-           
-            
+
+            // rect.PersistId = DataContainer.idCounter;
+            rect.Uid = DataContainer.idCounter.ToString();
+            DataContainer.idCounter++;
+            System.Diagnostics.Debug.Write("object id:" + rect.Uid);
 
             Surface.Children.Add(rect);
 
+           
             DataContainer.CreateNewGate(gateImg, rect.Uid);
            
+
             Canvas.SetLeft(rect, e.GetPosition(Surface).X);
             Canvas.SetTop(rect, e.GetPosition(Surface).Y);
         }
@@ -122,11 +257,11 @@ namespace LogicCircuits
 
         private void gate_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-          
 
-           
 
-            
+            source = (UIElement)sender;
+
+
             if (canDelete)
                 removeElement(e);
             if (canLink)
@@ -135,11 +270,14 @@ namespace LogicCircuits
                 //setting information that drawing from gate to gate is initialized, an
                 drawFromWireToGate = false;
                 drawFromGateToGate = true;
+                
+                drawingGate = "0";
 
-                source = (UIElement)sender;
+               
+               
                 //i assume source is the gate currently selected, so we can get its id by it
                 startingGate = new ElementContainer();
-                DataContainer.AssingObjectByID(source.Uid, startingGate);
+                startingGate=DataContainer.AssingObjectByID(source.Uid, startingGate);
             }
             else
             {
@@ -179,20 +317,35 @@ namespace LogicCircuits
                 //assuming source is the gate over which we are hovering
                 //setting the end point of connection to the gate 
                 source = (UIElement)sender;
-                DataContainer.AssingObjectByID(source.Uid, endingGate);
+
+              //  System.Diagnostics.Debug.Write("source id:" + source.Uid);
+               endingGate= DataContainer.AssingObjectByID(source.Uid, endingGate);
+              //  System.Diagnostics.Debug.Write("ec value of id set :" + endingGate.Uid);
                 lineEndPoint = e.GetPosition(Surface);
                 DrawLine(lineStartPoint, lineEndPoint);
 
+                if (endingGate.firstWireSet == false)
+                {
+                    // System.Diagnostics.Debug.Write("Checking first wire set:" + endingGate.firstWireSet + "\n");
+                    endingGate.firstWireSet = true;
+                    endingGate.inputs[0] = latestWire.output;
+                }
+                else if (endingGate.secondWireSet == false )
+                {
+                   // System.Diagnostics.Debug.Write("Checking second wire set:" + endingGate.Uid + "\n");
+                    endingGate.secondWireSet = true;
+                    endingGate.inputs[1] = latestWire.output;
+                }
+               endingGate= Operations.calculation(endingGate);
+                System.Diagnostics.Debug.Write("calc result:" + endingGate.output+ "\n");
+                DataContainer.UpdateObject(endingGate);
+                   
+                System.Diagnostics.Debug.Write("object id ending gate:" + endingGate.Uid+" ");
+
+                System.Diagnostics.Debug.Write("first input:"+endingGate.inputs[0]+ "second input:"+endingGate.inputs[1]);
                 // here set the stuff to the gate to make it connected in logic
 
-            if(drawFromWireToGate)
-                {
 
-                }
-            else if(drawFromGateToGate)
-                {
-
-                }
             }
             Mouse.Capture(null);
             captured = false;
@@ -338,12 +491,99 @@ namespace LogicCircuits
         void DrawLine(Point spt, Point ept)
         {
             Line link = new Line();
+           link.Uid = DataContainer.idCounter.ToString();
+            DataContainer.idCounter++;
+
             link.X1 = spt.X;
             link.Y1 = spt.Y;
             link.X2 = ept.X;
             link.Y2 = ept.Y;
 
-            link.Stroke = Brushes.MediumBlue;
+            if (drawFromWireToGate)
+            {
+                if (drawingGate.Equals("a"))
+                {
+                    if (DataContainer.aWire == true)
+                    {
+                        link.Stroke = Brushes.MediumBlue;
+                    }
+                    else
+                        link.Stroke = Brushes.Firebrick;
+
+                }
+                else if (drawingGate.Equals("b"))
+                {
+                    if (DataContainer.bWire == true)
+                    {
+                        link.Stroke = Brushes.MediumBlue;
+                    }
+                    else
+                        link.Stroke = Brushes.Firebrick;
+
+                }
+                else if (drawingGate.Equals("c"))
+                {
+                    if (DataContainer.cWire == true)
+                    {
+                        link.Stroke = Brushes.MediumBlue;
+                    }
+                    else
+                        link.Stroke = Brushes.Firebrick;
+
+                }
+                else if (drawingGate.Equals("d"))
+                {
+                    if (DataContainer.dWire == true)
+                    {
+                        link.Stroke = Brushes.MediumBlue;
+                    }
+                    else
+                        link.Stroke = Brushes.Firebrick;
+
+                }
+                else if (drawingGate.Equals("e"))
+                {
+                    if (DataContainer.eWire == true)
+                    {
+                        link.Stroke = Brushes.MediumBlue;
+                    }
+                    else
+                        link.Stroke = Brushes.Firebrick;
+
+                }
+                else if (drawingGate.Equals("f"))
+                {
+                    if (DataContainer.fWire == true)
+                    {
+                        link.Stroke = Brushes.MediumBlue;
+                    }
+                    else
+                        link.Stroke = Brushes.Firebrick;
+
+                }
+
+            }
+            else if(drawFromGateToGate)
+            {
+                if(startingGate.output==true)
+                {
+                    link.Stroke = Brushes.MediumBlue;
+
+                }
+                else
+                    link.Stroke = Brushes.Firebrick;
+
+            }
+
+            if (link.Stroke == Brushes.MediumBlue)
+                DataContainer.CreateNewWire(true, link.Uid);
+            else
+                DataContainer.CreateNewWire(false, link.Uid);
+
+            //setting newly made wire here
+             latestWire=DataContainer.AssingWireByID(link.Uid, latestWire);
+            System.Diagnostics.Debug.Write("wire id:" + link.Uid);
+
             link.StrokeThickness = 2;
             link.MouseLeftButtonDown += new MouseButtonEventHandler(wire_MouseLeftButtonDown);
 
