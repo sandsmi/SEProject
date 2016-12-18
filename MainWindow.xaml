@@ -1,0 +1,150 @@
+﻿<Window x:Class="LogicCircuits.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Logic Circuits" Height="600" Width="800" Background="LightGray">
+    <Grid>
+        <Border Background="Transparent">
+            <Canvas Name="Surface" Background="Transparent" MouseMove="canvas_MouseMove">
+                <Rectangle Fill="White" MouseLeftButtonDown="canvas_MouseLeftButtonDown" Canvas.Left="65" Canvas.Top="87" Width="670" Height="417" />
+                <Button Content="Link" ToolTip="Link gates with wires" Canvas.Left="220" Canvas.Top="56" Width="100" Height="26" Click="linkClick"/>
+                <Button Content="Move" ToolTip="Drag gates around" Canvas.Left="327" Canvas.Top="56" Width="147" Height="26" Click="moveClick"/>
+                <Button Content="Delete" ToolTip="Delete gates or wires" Canvas.Left="480" Canvas.Top="56" Width="100" Height="26" Click="deleteClick"/>
+                <Rectangle Canvas.Left="351" Canvas.Top="522" HorizontalAlignment="Stretch" Fill="MediumBlue" Height="3" Width="372"/>
+                <Rectangle Canvas.Left="351" Canvas.Top="543" HorizontalAlignment="Stretch" Fill="Firebrick" Height="3" Width="372"/>
+                <Rectangle Name="a_wire" Canvas.Left="104" Canvas.Top="85" VerticalAlignment="Stretch" Fill="MediumBlue" Height="419" Width="2" MouseLeftButtonDown="line_MouseLeftButtonDownA"/>
+                <Rectangle Name="b_wire" Canvas.Left="120" Canvas.Top="85" VerticalAlignment="Stretch" Fill="MediumBlue" Height="419" Width="2" MouseLeftButtonDown="line_MouseLeftButtonDownB"/>
+                <Rectangle Name="c_wire" Canvas.Left="137" Canvas.Top="85" VerticalAlignment="Stretch" Fill="MediumBlue" Height="419" Width="2" MouseLeftButtonDown="line_MouseLeftButtonDownC"/>
+                <Rectangle Name="d_wire" Canvas.Left="154" Canvas.Top="85" VerticalAlignment="Stretch" Fill="MediumBlue" Height="419" Width="2" MouseLeftButtonDown="line_MouseLeftButtonDownD"/>
+                <Rectangle Name="e_wire" Canvas.Left="171" Canvas.Top="85" VerticalAlignment="Stretch" Fill="MediumBlue" Height="419" Width="2" MouseLeftButtonDown="line_MouseLeftButtonDownE"/>
+                <Rectangle Name="f_wire" Canvas.Left="188" Canvas.Top="85" VerticalAlignment="Stretch" Fill="MediumBlue" Height="419" Width="2" MouseLeftButtonDown="line_MouseLeftButtonDownF"/>
+                <TextBlock Foreground="Firebrick" Canvas.Left="728" Canvas.Top="533"><Span FontWeight="Bold">1</Span></TextBlock>
+                <TextBlock Foreground="MediumBlue" Canvas.Left="728" Canvas.Top="512" ><Span FontWeight="Bold">0</Span></TextBlock>
+            </Canvas>
+        </Border>
+
+        <WrapPanel Margin="149,10,55,449" Orientation="Horizontal" HorizontalAlignment="Center" Width="588">
+            <WrapPanel.Resources>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Margin" Value="5,2" />
+                    <Setter Property="Padding" Value="15,5" />
+                </Style>
+            </WrapPanel.Resources>
+            <Button Content="Load"/>
+            <Button Content="New" ToolTip="Clear the canvas" Click="newClick"/>
+            <Button Content="Prev"/>
+            <Button Content="Next"/>
+            <Button Content="Save"/>
+            <Button Content="Save As" ToolTip="Save a screenshot" Click="saveAsClick"/>
+            <Button Content="Close"/>
+            <Button Content="Info" ToolTip="Information about the application" Click="infoClick"/>
+        </WrapPanel>
+
+        <WrapPanel Margin="96,66,121,449" Orientation="Horizontal">
+            <WrapPanel.Resources>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Margin" Value="1, 0" />
+                    <Setter Property="Width" Value="15"/>
+                </Style>
+            </WrapPanel.Resources>
+            <Button Content="a" Click="a_BtnClick"/>
+            <Button Content="b" Click="b_BtnClick"/>
+            <Button Content="c" Click="c_BtnClick"/>
+            <Button Content="d" Click="d_BtnClick"/>
+            <Button Content="e" Click="e_BtnClick"/>
+            <Button Content="f" Click="f_BtnClick"/>
+        </WrapPanel>
+
+        <WrapPanel Margin="96,504,121,36" Orientation="Horizontal">
+            <WrapPanel.Resources>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Margin" Value="1, 0" />
+                    <Setter Property="Width" Value="15"/>
+                </Style>
+            </WrapPanel.Resources>
+            <Button Name="a_Btn" Content="0" Click="a_BtnClick"/>
+            <Button Name="b_Btn" Content="0" Click="b_BtnClick"/>
+            <Button Name="c_Btn" Content="0" Click="c_BtnClick"/>
+            <Button Name="d_Btn" Content="0" Click="d_BtnClick"/>
+            <Button Name="e_Btn" Content="0" Click="e_BtnClick"/>
+            <Button Name="f_Btn" Content="0" Click="f_BtnClick"/>
+        </WrapPanel>
+
+        <WrapPanel Margin="10,87,719,36" Orientation="Vertical">
+            <WrapPanel.Resources>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Margin" Value="0, 2" />
+                    <Setter Property="Width" Value="15"/>
+                </Style>
+            </WrapPanel.Resources>
+            <Button ToolTip="AND gate" Height="45" Width="45" Click="andClick" Focusable="True">
+                <Button.Content>
+                    <Image Source="Resources/and.png" x:Name="rec"/>
+                </Button.Content>
+            </Button>
+            <Button ToolTip="OR gate" Height="45" Width="45" Click="orClick">
+                <Button.Content>
+                    <Image Source="Resources/or.png" />
+                </Button.Content>
+            </Button>
+            <Button ToolTip="NOT gate" Height="45" Width="45" Click="notClick">
+                <Button.Content>
+                    <Image Source="Resources/not.png" />
+                </Button.Content>
+            </Button>
+            <Button ToolTip="NAND gate" Height="45" Width="45" Click="nandClick">
+                <Button.Content>
+                    <Image Source="Resources/nand.png" />
+                </Button.Content>
+            </Button>
+            <Button ToolTip="NOR gate" Height="45" Width="45" Click="norClick">
+                <Button.Content>
+                    <Image Source="Resources/nor.png" />
+                </Button.Content>
+            </Button>
+            <Button ToolTip="XOR gate" Height="45" Width="45" Click="xorClick">
+                <Button.Content>
+                    <Image Source="Resources/xor.png" />
+                </Button.Content>
+            </Button>
+
+            <Button Height="45" Width="45">
+                <Button.Content>
+                    <Image Source="Resources/one.png" />
+                </Button.Content>
+            </Button>
+        </WrapPanel>
+
+        <Popup Name="MyPopup" Placement="Center">
+            <StackPanel Background="LightGray">
+                <Label HorizontalAlignment="Center" Margin="10">
+                    <TextBlock>
+                        Logic Circuits
+                        <LineBreak/>
+                        Version: 0.8
+                        <LineBreak/>
+                        Authors:
+                        <LineBreak/>
+                        • Sandra Śmietana
+                        <LineBreak/>
+                        • Mateusz Michalik
+                        <LineBreak/>
+                        • Aleksander Olszewski
+                        <LineBreak/>
+                        • Kamil Siedlecki
+                        <LineBreak/>
+                        • Bartłomiej Pękala
+                        <LineBreak/>
+                        • Michał Urbaniak
+                        <LineBreak/>
+                        • Zbigniew Marszolik
+                        <LineBreak/>
+                        • Alex Hernandez
+                        <LineBreak/>
+                        • Krzysztof Kurpierz
+                    </TextBlock></Label>
+                <Button Click="hidePopup" Margin="10">Close</Button>
+            </StackPanel>
+        </Popup>
+    </Grid>
+
+</Window>
