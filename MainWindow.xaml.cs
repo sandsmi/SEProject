@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 
 //our logic code 
 using Model.DataContainer;
+using Model.LogicOperations;
 using Model.DataModels;
 using Model.ElementInformator;
 using Model.Elements;
@@ -43,6 +44,7 @@ namespace LogicCircuits
         string drawingGate;
         ElementContainer startingGate;
         ElementContainer endingGate;
+        ElementContainer latestWire;
         public MainWindow()
         {
             InitializeComponent();
@@ -53,6 +55,11 @@ namespace LogicCircuits
             source = null;
             drawFromWireToGate = false;
             drawFromGateToGate = false;
+           startingGate=new ElementContainer();
+            startingGate.inputs = new bool[2];
+            endingGate = new ElementContainer();
+            endingGate.inputs = new bool[2];
+            latestWire = new ElementContainer();
         }
 
         private void line_MouseLeftButtonDownA(object sender, MouseButtonEventArgs e)
@@ -227,13 +234,18 @@ namespace LogicCircuits
             rect.MouseLeftButtonDown += new MouseButtonEventHandler(gate_MouseLeftButtonDown);
             rect.MouseMove += new MouseEventHandler(gate_MouseMove);
             rect.MouseUp += new MouseButtonEventHandler(gate_MouseLeftButtonUp);
-           
-            
+
+            // rect.PersistId = DataContainer.idCounter;
+            rect.Uid = DataContainer.idCounter.ToString();
+            DataContainer.idCounter++;
+            System.Diagnostics.Debug.Write("object id:" + rect.Uid);
 
             Surface.Children.Add(rect);
 
+           
             DataContainer.CreateNewGate(gateImg, rect.Uid);
            
+
             Canvas.SetLeft(rect, e.GetPosition(Surface).X);
             Canvas.SetTop(rect, e.GetPosition(Surface).Y);
         }
@@ -245,11 +257,11 @@ namespace LogicCircuits
 
         private void gate_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-          
 
-           
 
-            
+            source = (UIElement)sender;
+
+
             if (canDelete)
                 removeElement(e);
             if (canLink)
@@ -258,12 +270,14 @@ namespace LogicCircuits
                 //setting information that drawing from gate to gate is initialized, an
                 drawFromWireToGate = false;
                 drawFromGateToGate = true;
+                
                 drawingGate = "0";
 
-                source = (UIElement)sender;
+               
+               
                 //i assume source is the gate currently selected, so we can get its id by it
                 startingGate = new ElementContainer();
-                DataContainer.AssingObjectByID(source.Uid, startingGate);
+                startingGate=DataContainer.AssingObjectByID(source.Uid, startingGate);
             }
             else
             {
@@ -303,20 +317,35 @@ namespace LogicCircuits
                 //assuming source is the gate over which we are hovering
                 //setting the end point of connection to the gate 
                 source = (UIElement)sender;
-                DataContainer.AssingObjectByID(source.Uid, endingGate);
+
+              //  System.Diagnostics.Debug.Write("source id:" + source.Uid);
+               endingGate= DataContainer.AssingObjectByID(source.Uid, endingGate);
+              //  System.Diagnostics.Debug.Write("ec value of id set :" + endingGate.Uid);
                 lineEndPoint = e.GetPosition(Surface);
                 DrawLine(lineStartPoint, lineEndPoint);
 
+                if (endingGate.firstWireSet == false)
+                {
+                    // System.Diagnostics.Debug.Write("Checking first wire set:" + endingGate.firstWireSet + "\n");
+                    endingGate.firstWireSet = true;
+                    endingGate.inputs[0] = latestWire.output;
+                }
+                else if (endingGate.secondWireSet == false )
+                {
+                   // System.Diagnostics.Debug.Write("Checking second wire set:" + endingGate.Uid + "\n");
+                    endingGate.secondWireSet = true;
+                    endingGate.inputs[1] = latestWire.output;
+                }
+               endingGate= Operations.calculation(endingGate);
+                System.Diagnostics.Debug.Write("calc result:" + endingGate.output+ "\n");
+                DataContainer.UpdateObject(endingGate);
+                   
+                System.Diagnostics.Debug.Write("object id ending gate:" + endingGate.Uid+" ");
+
+                System.Diagnostics.Debug.Write("first input:"+endingGate.inputs[0]+ "second input:"+endingGate.inputs[1]);
                 // here set the stuff to the gate to make it connected in logic
 
-            if(drawFromWireToGate)
-                {
 
-                }
-            else if(drawFromGateToGate)
-                {
-
-                }
             }
             Mouse.Capture(null);
             captured = false;
@@ -462,6 +491,9 @@ namespace LogicCircuits
         void DrawLine(Point spt, Point ept)
         {
             Line link = new Line();
+           link.Uid = DataContainer.idCounter.ToString();
+            DataContainer.idCounter++;
+
             link.X1 = spt.X;
             link.Y1 = spt.Y;
             link.X2 = ept.X;
@@ -548,6 +580,9 @@ namespace LogicCircuits
             else
                 DataContainer.CreateNewWire(false, link.Uid);
 
+            //setting newly made wire here
+             latestWire=DataContainer.AssingWireByID(link.Uid, latestWire);
+            System.Diagnostics.Debug.Write("wire id:" + link.Uid);
 
             link.StrokeThickness = 2;
             link.MouseLeftButtonDown += new MouseButtonEventHandler(wire_MouseLeftButtonDown);
