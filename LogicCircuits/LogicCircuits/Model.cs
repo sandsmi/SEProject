@@ -10,65 +10,71 @@ namespace Model
     {
         public class Operations
         {
-            public int calculation(int wire1, int wire2, GateType gateType)
+            public void calculation(ElementContainer ec)
             {
-                if (gateType != GateType.NOT || gateType != GateType.ONE)
+                if ( ec.gateType != GateType.ONE)
                 {
-                    switch (gateType)
+                    switch (ec.gateType)
                     {
                         case GateType.AND:
-                            if (wire1 == 0 && wire2 == 0) return 0;
-                            else if (wire1 == 0 && wire2 == 1) return 0;
-                            else if (wire1 == 1 && wire2 == 0) return 0;
-                            else if (wire1 == 1 && wire2 == 1) return 1;
-                            else return -1;
+                            if (ec.inputs[0] == false && ec.inputs[1] == false) ec.output = false;
+                            else if (ec.inputs[0] == false && ec.inputs[1] == true) ec.output = false;
+                            else if (ec.inputs[0] == true && ec.inputs[1] == false) ec.output = false;
+                            else if (ec.inputs[0] == true && ec.inputs[1] == true) ec.output = true;
+                            else;
                             break;
                         case GateType.NAND:
-                            if (wire1 == 0 && wire2 == 0) return 1;
-                            else if (wire1 == 0 && wire2 == 1) return 1;
-                            else if (wire1 == 1 && wire2 == 0) return 1;
-                            else if (wire1 == 1 && wire2 == 1) return 0;
-                            else return -1;
+                            if (ec.inputs[0] == false && ec.inputs[1] == false) ec.output = true;
+                            else if (ec.inputs[0] == false && ec.inputs[1] == true) ec.output = true;
+                            else if (ec.inputs[0] == true && ec.inputs[1] == false) ec.output = true;
+                            else if (ec.inputs[0] == true && ec.inputs[1] == true) ec.output = false;
+                            else ;
                             break;
                         case GateType.OR:
-                            if (wire1 == 0 && wire2 == 0) return 0;
-                            else if (wire1 == 0 && wire2 == 1) return 1;
-                            else if (wire1 == 1 && wire2 == 0) return 1;
-                            else if (wire1 == 1 && wire2 == 1) return 1;
-                            else return -1;
+                            if (ec.inputs[0] == false && ec.inputs[1] == false) ec.output = false;
+                            else if (ec.inputs[0] == false && ec.inputs[1] == true) ec.output = true;
+                            else if (ec.inputs[0] == true && ec.inputs[1] == false) ec.output = true;
+                            else if (ec.inputs[0] == true && ec.inputs[1] == true) ec.output = true;
+                            else ;
                             break;
                         case GateType.NOR:
-                            if (wire1 == 0 && wire2 == 0) return 1;
-                            else if (wire1 == 0 && wire2 == 1) return 0;
-                            else if (wire1 == 1 && wire2 == 0) return 0;
-                            else if (wire1 == 1 && wire2 == 1) return 0;
-                            else return -1;
+                            if (ec.inputs[0] == false && ec.inputs[1] == false) ec.output = true;
+                            else if (ec.inputs[0] == false && ec.inputs[1] == true) ec.output = false;
+                            else if (ec.inputs[0] == true && ec.inputs[1] == false) ec.output = false;
+                            else if (ec.inputs[0] == true && ec.inputs[1] == true) ec.output = false;
+                            else ;
                             break;
                         case GateType.XOR:
-                            if (wire1 == 0 && wire2 == 0) return 0;
-                            else if (wire1 == 0 && wire2 == 1) return 1;
-                            else if (wire1 == 1 && wire2 == 0) return 1;
-                            else if (wire1 == 1 && wire2 == 1) return 0;
-                            else return -1;
+                             if (ec.inputs[0] == false && ec.inputs[1] == false) ec.output = false;
+                            else if (ec.inputs[0] == false && ec.inputs[1] == true) ec.output = true;
+                            else if (ec.inputs[0] == true && ec.inputs[1] == false) ec.output = true;
+                            else if (ec.inputs[0] == true && ec.inputs[1] == true) ec.output = false;
+                            else ;
+                            break;
+                        case GateType.NOT:
+                            if (ec.inputs[0] == true) ec.output = false;
+                            else if (ec.inputs[0] == false) ec.output = true;
+                            else;
                             break;
                         default:
-                            return -1;
+                            ;
                             break;
                     }
                 }
-                else return -1;
+                else ;
             }
 
-            public int calculation2(int wire1, GateType gateType)
+            //not used, delete it please if it is still gonna be here
+            public void calculation2(ElementContainer ec)
             {
-                if (gateType == GateType.NOR)
+                if (ec.gateType == GateType.NOT)
                 {
-                    if (wire1 == 1) return 0;
-                    else if (wire1 == 0) return 1;
-                    else return -1;
+                    if (ec.inputs[0] == true) ec.output= false;
+                    else if (ec.inputs[0] == false) ec.output= true;
+                    else;
 
                 }
-                else return -1;
+                else;
             }
         }
     }
@@ -77,11 +83,50 @@ namespace Model
     namespace DataContainer
     {
 
-      public static class CreateGates
+      public static class DataContainer
         {
-           static List<ElementContainer>  ecList = new List<ElementContainer>();
-           
-           // bool flag = false;
+           static List<ElementContainer>  gatesList = new List<ElementContainer>();
+
+            static List<ElementContainer> wiresList = new List<ElementContainer>();
+
+            //basic wires on the left
+          public static bool aWire = true;
+          public static bool bWire = true;
+          public static bool cWire = true;
+          public static bool dWire = true; 
+          public static bool eWire = true;
+          public static bool fWire = true; 
+
+            public static void CreateNewWire(bool Ioutput, string iId)
+            {
+                ElementContainer newElementContainer = new ElementContainer();
+
+                newElementContainer.elementType = ElementType.rawType;
+                newElementContainer.output = Ioutput;
+
+                //by default the inputs are set to false
+                
+                newElementContainer.Uid = iId;
+                wiresList.Add(newElementContainer);
+            }
+
+
+            //sets new object instance based on provided iId
+            public static void AssingObjectByID(string iId, ElementContainer ec)
+            {
+                foreach(ElementContainer e in gatesList)
+                {
+                    if(e.Uid==iId)
+                    {
+                        ec = e;
+                        break;
+                    }
+                }
+
+            }
+
+
+            // bool flag = false;
 
             public static void CreateNewGate(string gateImg, string id)
             {
@@ -131,7 +176,7 @@ namespace Model
                 newElementContainer.inputs[0] = false;
                 newElementContainer.inputs[1] = false;
                 newElementContainer.Uid = iId;
-                ecList.Add(newElementContainer);
+                gatesList.Add(newElementContainer);
 
 
             }
@@ -147,7 +192,7 @@ namespace Model
                 newElementContainer.inputs[1] = false;
 
                 newElementContainer.Uid = iId;
-                ecList.Add(newElementContainer);
+                gatesList.Add(newElementContainer);
             }
             public static void CreateNotGate(string iId)
             {
@@ -155,7 +200,7 @@ namespace Model
                 newElementContainer.gateType = GateType.NOT;
                 newElementContainer.elementType = ElementType.gateType;
                 newElementContainer.Uid = iId;
-                ecList.Add(newElementContainer);
+                gatesList.Add(newElementContainer);
             }
             public static void CreateNandGate(string iId)
             {
@@ -167,7 +212,7 @@ namespace Model
                 newElementContainer.inputs[0] = false;
                 newElementContainer.inputs[1] = false;
                 newElementContainer.Uid = iId;
-                ecList.Add(newElementContainer);
+                gatesList.Add(newElementContainer);
             }
             public static void CreateNorGate(string iId)
             {
@@ -179,7 +224,7 @@ namespace Model
                 newElementContainer.inputs[0] = false;
                 newElementContainer.inputs[1] = false;
                 newElementContainer.Uid = iId;
-                ecList.Add(newElementContainer);
+                gatesList.Add(newElementContainer);
             }
             public static void CreateOneGate(string iId)
             {
@@ -188,7 +233,7 @@ namespace Model
                 newElementContainer.elementType = ElementType.gateType;
                 
                 newElementContainer.Uid = iId;
-                ecList.Add(newElementContainer);
+                gatesList.Add(newElementContainer);
             }
             public static void CreateXorGate(string iId)
             {
@@ -197,9 +242,16 @@ namespace Model
                 newElementContainer.elementType = ElementType.gateType;
 
                 newElementContainer.Uid = iId;
-                ecList.Add(newElementContainer);
+                gatesList.Add(newElementContainer);
             }
         }
+
+
+
+
+
+
+
 
         public class Data
         {
@@ -248,6 +300,9 @@ namespace Model
             //string id, cuz ui objects use string ids
             public string Uid;
             public int order;
+
+
+
             public bool dirty
             {
                 get { return this.dirty; }

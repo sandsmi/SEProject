@@ -14,6 +14,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
+//our logic code 
+using Model.DataContainer;
+using Model.DataModels;
+using Model.ElementInformator;
+using Model.Elements;
+using Model.Utilities;
+
 namespace LogicCircuits
 {
     /// <summary>
@@ -42,6 +50,8 @@ namespace LogicCircuits
 
         private void line_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+
+            //how to get the wire value?
             if (!canLink)
                 return;
             lineStartPoint = e.GetPosition(Surface);
@@ -56,6 +66,9 @@ namespace LogicCircuits
 
             Surface.Children.Add(el);
         }
+
+
+
 
         private void wire_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -79,8 +92,13 @@ namespace LogicCircuits
             rect.MouseLeftButtonDown += new MouseButtonEventHandler(gate_MouseLeftButtonDown);
             rect.MouseMove += new MouseEventHandler(gate_MouseMove);
             rect.MouseUp += new MouseButtonEventHandler(gate_MouseLeftButtonUp);
+           
+            
 
             Surface.Children.Add(rect);
+
+            DataContainer.CreateNewGate(gateImg, rect.Uid);
+           
             Canvas.SetLeft(rect, e.GetPosition(Surface).X);
             Canvas.SetTop(rect, e.GetPosition(Surface).Y);
         }
@@ -93,6 +111,13 @@ namespace LogicCircuits
         private void gate_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             source = (UIElement)sender;
+            //i assume source is the gate currently selected, so we can get its id by it
+            ElementContainer elem = new ElementContainer();
+            DataContainer.AssingObjectByID(source.Uid, elem);
+
+            //now elem should be the object we actually clicked
+
+            
             if (canDelete)
                 removeElement(e);
             if (canLink)
@@ -214,26 +239,33 @@ namespace LogicCircuits
         }
         private void a_BtnClick(object sender, RoutedEventArgs e)
         {
+            DataContainer.aWire = !DataContainer.aWire;
             toggleZeroOne(a_Btn, a_wire);
         }
         private void b_BtnClick(object sender, RoutedEventArgs e)
         {
+
+            DataContainer.bWire = !DataContainer.bWire;
             toggleZeroOne(b_Btn, b_wire);
         }
         private void c_BtnClick(object sender, RoutedEventArgs e)
         {
+            DataContainer.cWire = !DataContainer.cWire;
             toggleZeroOne(c_Btn, c_wire);
         }
         private void d_BtnClick(object sender, RoutedEventArgs e)
         {
+            DataContainer.dWire = !DataContainer.dWire;
             toggleZeroOne(d_Btn, d_wire);
         }
         private void e_BtnClick(object sender, RoutedEventArgs e)
         {
+            DataContainer.eWire = !DataContainer.eWire;
             toggleZeroOne(e_Btn, e_wire);
         }
         private void f_BtnClick(object sender, RoutedEventArgs e)
         {
+            DataContainer.fWire = !DataContainer.fWire;
             toggleZeroOne(f_Btn, f_wire);
         }
         private void infoClick(object sender, RoutedEventArgs e)
