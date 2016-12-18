@@ -1,10 +1,206 @@
-﻿using Model.DataModels;
+﻿using Model.DataContainer;
+using Model.DataModels;
+using System.Collections.Generic;
+
 
 namespace Model
 {
 
-     namespace DataContainer
+    namespace LogicOperations
     {
+        public class Operations
+        {
+            public int calculation(int wire1, int wire2, GateType gateType)
+            {
+                if (gateType != GateType.NOT || gateType != GateType.ONE)
+                {
+                    switch (gateType)
+                    {
+                        case GateType.AND:
+                            if (wire1 == 0 && wire2 == 0) return 0;
+                            else if (wire1 == 0 && wire2 == 1) return 0;
+                            else if (wire1 == 1 && wire2 == 0) return 0;
+                            else if (wire1 == 1 && wire2 == 1) return 1;
+                            else return -1;
+                            break;
+                        case GateType.NAND:
+                            if (wire1 == 0 && wire2 == 0) return 1;
+                            else if (wire1 == 0 && wire2 == 1) return 1;
+                            else if (wire1 == 1 && wire2 == 0) return 1;
+                            else if (wire1 == 1 && wire2 == 1) return 0;
+                            else return -1;
+                            break;
+                        case GateType.OR:
+                            if (wire1 == 0 && wire2 == 0) return 0;
+                            else if (wire1 == 0 && wire2 == 1) return 1;
+                            else if (wire1 == 1 && wire2 == 0) return 1;
+                            else if (wire1 == 1 && wire2 == 1) return 1;
+                            else return -1;
+                            break;
+                        case GateType.NOR:
+                            if (wire1 == 0 && wire2 == 0) return 1;
+                            else if (wire1 == 0 && wire2 == 1) return 0;
+                            else if (wire1 == 1 && wire2 == 0) return 0;
+                            else if (wire1 == 1 && wire2 == 1) return 0;
+                            else return -1;
+                            break;
+                        case GateType.XOR:
+                            if (wire1 == 0 && wire2 == 0) return 0;
+                            else if (wire1 == 0 && wire2 == 1) return 1;
+                            else if (wire1 == 1 && wire2 == 0) return 1;
+                            else if (wire1 == 1 && wire2 == 1) return 0;
+                            else return -1;
+                            break;
+                        default:
+                            return -1;
+                            break;
+                    }
+                }
+                else return -1;
+            }
+
+            public int calculation2(int wire1, GateType gateType)
+            {
+                if (gateType == GateType.NOR)
+                {
+                    if (wire1 == 1) return 0;
+                    else if (wire1 == 0) return 1;
+                    else return -1;
+
+                }
+                else return -1;
+            }
+        }
+    }
+
+
+    namespace DataContainer
+    {
+
+      public static class CreateGates
+        {
+           static List<ElementContainer>  ecList = new List<ElementContainer>();
+           
+           // bool flag = false;
+
+            public static void CreateNewGate(string gateImg, string id)
+            {
+                if (gateImg == "Resources / and.png")
+                {
+
+                    CreateAndGate(id);
+                }
+                else if (gateImg == "Resources / nand.png")
+                {
+
+                    CreateOrGate(id);
+                }
+                else if (gateImg == "Resources / nor.png")
+                {
+                    CreateNotGate(id);
+
+
+                }
+                else if (gateImg == "Resources / not.png")
+                {
+
+                    CreateNandGate(id);
+                }
+                else if (gateImg == "Resources / one.png")
+                {
+
+                    CreateNorGate(id);
+                }
+                else if (gateImg == "Resources /or.png")
+                {
+
+                    CreateNorGate(id);
+                }
+              
+
+
+            }
+
+            public static void CreateAndGate(string iId)
+            {
+                ElementContainer newElementContainer = new ElementContainer();
+                newElementContainer.gateType = GateType.AND;
+                newElementContainer.elementType = ElementType.gateType;
+                newElementContainer.inputs = new bool[2];
+                //by default the inputs are set to false
+                newElementContainer.inputs[0] = false;
+                newElementContainer.inputs[1] = false;
+                newElementContainer.Uid = iId;
+                ecList.Add(newElementContainer);
+
+
+            }
+
+            public static void CreateOrGate(string iId)
+            {
+                ElementContainer newElementContainer = new ElementContainer();
+                newElementContainer.gateType = GateType.OR;
+                newElementContainer.elementType = ElementType.gateType;
+                newElementContainer.inputs = new bool[2];
+                //by default the inputs are set to false
+                newElementContainer.inputs[0] = false;
+                newElementContainer.inputs[1] = false;
+
+                newElementContainer.Uid = iId;
+                ecList.Add(newElementContainer);
+            }
+            public static void CreateNotGate(string iId)
+            {
+                ElementContainer newElementContainer = new ElementContainer();
+                newElementContainer.gateType = GateType.NOT;
+                newElementContainer.elementType = ElementType.gateType;
+                newElementContainer.Uid = iId;
+                ecList.Add(newElementContainer);
+            }
+            public static void CreateNandGate(string iId)
+            {
+                ElementContainer newElementContainer = new ElementContainer();
+                newElementContainer.gateType = GateType.NAND;
+                newElementContainer.elementType = ElementType.gateType;
+                newElementContainer.inputs = new bool[2];
+                //by default the inputs are set to false
+                newElementContainer.inputs[0] = false;
+                newElementContainer.inputs[1] = false;
+                newElementContainer.Uid = iId;
+                ecList.Add(newElementContainer);
+            }
+            public static void CreateNorGate(string iId)
+            {
+                ElementContainer newElementContainer = new ElementContainer();
+                newElementContainer.gateType = GateType.NOR;
+                newElementContainer.elementType = ElementType.gateType;
+                newElementContainer.inputs = new bool[2];
+                //by default the inputs are set to false
+                newElementContainer.inputs[0] = false;
+                newElementContainer.inputs[1] = false;
+                newElementContainer.Uid = iId;
+                ecList.Add(newElementContainer);
+            }
+            public static void CreateOneGate(string iId)
+            {
+                ElementContainer newElementContainer = new ElementContainer();
+                newElementContainer.gateType = GateType.ONE;
+                newElementContainer.elementType = ElementType.gateType;
+                
+                newElementContainer.Uid = iId;
+                ecList.Add(newElementContainer);
+            }
+            public static void CreateXorGate(string iId)
+            {
+                ElementContainer newElementContainer = new ElementContainer();
+                newElementContainer.gateType = GateType.XOR;
+                newElementContainer.elementType = ElementType.gateType;
+
+                newElementContainer.Uid = iId;
+                ecList.Add(newElementContainer);
+            }
+        }
+
         public class Data
         {
             private static Data instance;
@@ -44,6 +240,13 @@ namespace Model
         {
 
             public int id;
+
+            //inputs to gate on wchich base output is calculated
+            public bool[] inputs;
+
+            public bool output;
+            //string id, cuz ui objects use string ids
+            public string Uid;
             public int order;
             public bool dirty
             {
@@ -90,7 +293,7 @@ namespace Model
 
         public enum GateType
         {
-            AND, NAND, OR, NOR, NOT
+            AND, NAND, OR, NOR, NOT, ONE, XOR
         }
 
 
