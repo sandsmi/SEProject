@@ -252,10 +252,11 @@ namespace Model
                 ElementContainer newElementContainer = new ElementContainer();
                 newElementContainer.gateType = GateType.NOT;
                 newElementContainer.elementType = ElementType.gateType;
+                newElementContainer.inputs = new bool[2];
                 newElementContainer.inputs[0] = false;
-                newElementContainer.inputs[1] = false;
+                
                 newElementContainer.firstWireSet = false;
-                newElementContainer.secondWireSet = false;
+                
                 newElementContainer.Uid = iId;
                 gatesList.Add(newElementContainer);
             }

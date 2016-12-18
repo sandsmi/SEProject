@@ -324,13 +324,13 @@ namespace LogicCircuits
                 lineEndPoint = e.GetPosition(Surface);
                 DrawLine(lineStartPoint, lineEndPoint);
 
-                if(endingGate.firstWireSet== false)
+                if (endingGate.firstWireSet == false)
                 {
-                   // System.Diagnostics.Debug.Write("Checking first wire set:" + endingGate.firstWireSet + "\n");
+                    // System.Diagnostics.Debug.Write("Checking first wire set:" + endingGate.firstWireSet + "\n");
                     endingGate.firstWireSet = true;
-                    endingGate.inputs[0] =latestWire.output;
+                    endingGate.inputs[0] = latestWire.output;
                 }
-                else if(endingGate.secondWireSet==false)
+                else if (endingGate.secondWireSet == false )
                 {
                    // System.Diagnostics.Debug.Write("Checking second wire set:" + endingGate.Uid + "\n");
                     endingGate.secondWireSet = true;
