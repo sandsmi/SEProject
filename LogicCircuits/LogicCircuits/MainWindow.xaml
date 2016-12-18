@@ -17,8 +17,8 @@
                 <Rectangle Name="d_wire" Canvas.Left="154" Canvas.Top="85" VerticalAlignment="Stretch" Fill="MediumBlue" Height="419" Width="2" MouseLeftButtonDown="line_MouseLeftButtonDownD"/>
                 <Rectangle Name="e_wire" Canvas.Left="171" Canvas.Top="85" VerticalAlignment="Stretch" Fill="MediumBlue" Height="419" Width="2" MouseLeftButtonDown="line_MouseLeftButtonDownE"/>
                 <Rectangle Name="f_wire" Canvas.Left="188" Canvas.Top="85" VerticalAlignment="Stretch" Fill="MediumBlue" Height="419" Width="2" MouseLeftButtonDown="line_MouseLeftButtonDownF"/>
-                <TextBlock Foreground="Firebrick" Canvas.Left="728" Canvas.Top="533"><Span FontWeight="Bold">1</Span></TextBlock>
-                <TextBlock Foreground="MediumBlue" Canvas.Left="728" Canvas.Top="512" ><Span FontWeight="Bold">0</Span></TextBlock>
+                <TextBlock Foreground="Firebrick" Canvas.Left="728" Canvas.Top="533"><Span FontWeight="Bold">0</Span></TextBlock>
+                <TextBlock Foreground="MediumBlue" Canvas.Left="728" Canvas.Top="512" ><Span FontWeight="Bold">1</Span></TextBlock>
             </Canvas>
         </Border>
 
