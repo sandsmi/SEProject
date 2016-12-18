@@ -32,12 +32,17 @@ namespace LogicCircuits
         private bool canDraw { get; set; }
         private bool canLink { get; set; }
         private bool canDelete { get; set; }
+        private bool drawFromWireToGate { get; set; }
+        private bool drawFromGateToGate { get; set; }
         private string gateImg { get; set; }
         bool captured { get; set; }
         UIElement source { get; set; }
         double xShape, xCanvas, yShape, yCanvas;
         Point lineStartPoint, lineEndPoint;
+        ElementContainer elem;
 
+        ElementContainer startingGate;
+        ElementContainer endingGate;
         public MainWindow()
         {
             InitializeComponent();
@@ -46,6 +51,8 @@ namespace LogicCircuits
             canDelete = false;
             captured = false;
             source = null;
+            drawFromWireToGate = false;
+            drawFromGateToGate = false;
         }
 
         private void line_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -53,7 +60,12 @@ namespace LogicCircuits
 
             //how to get the wire value?
             if (!canLink)
+            {
+                drawFromWireToGate = false;
                 return;
+            }
+            drawFromWireToGate = true;
+            drawFromGateToGate = false;
             lineStartPoint = e.GetPosition(Surface);
             int mX = (int)e.GetPosition(Surface).X;
             int mY = (int)e.GetPosition(Surface).Y;
@@ -110,12 +122,9 @@ namespace LogicCircuits
 
         private void gate_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            source = (UIElement)sender;
-            //i assume source is the gate currently selected, so we can get its id by it
-            ElementContainer elem = new ElementContainer();
-            DataContainer.AssingObjectByID(source.Uid, elem);
+          
 
-            //now elem should be the object we actually clicked
+           
 
             
             if (canDelete)
@@ -123,6 +132,20 @@ namespace LogicCircuits
             if (canLink)
             {
                 lineStartPoint = e.GetPosition(Surface);
+                //setting information that drawing from gate to gate is initialized, an
+                drawFromWireToGate = false;
+                drawFromGateToGate = true;
+
+                source = (UIElement)sender;
+                //i assume source is the gate currently selected, so we can get its id by it
+                startingGate = new ElementContainer();
+                DataContainer.AssingObjectByID(source.Uid, startingGate);
+            }
+            else
+            {
+                drawFromWireToGate = false;
+                drawFromGateToGate = false;
+
             }
             if (canDraw || canLink)
                 return;
@@ -152,8 +175,24 @@ namespace LogicCircuits
         {
             if (canLink)
             {
+
+                //assuming source is the gate over which we are hovering
+                //setting the end point of connection to the gate 
+                source = (UIElement)sender;
+                DataContainer.AssingObjectByID(source.Uid, endingGate);
                 lineEndPoint = e.GetPosition(Surface);
                 DrawLine(lineStartPoint, lineEndPoint);
+
+                // here set the stuff to the gate to make it connected in logic
+
+            if(drawFromWireToGate)
+                {
+
+                }
+            else if(drawFromGateToGate)
+                {
+
+                }
             }
             Mouse.Capture(null);
             captured = false;
